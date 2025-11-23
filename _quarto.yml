@@ -1,0 +1,45 @@
+project:
+  type: website
+  output-dir: _site
+  preview:
+    port: 3333
+
+website:
+  title: "Geolife Daily Mobility"
+
+  page-footer:
+    left: "Geolife Daily Mobility"
+    right: "Built with Quarto"
+
+  sidebar:
+    pinned: true
+    align: center
+    style: "docked"
+    search: true
+    collapse-level: 2
+    contents:
+      - href: index.qmd
+        text: Welcome
+      - section: "Analysis"
+        contents:
+          - href: LR.ipynb
+            text: "Overview"
+          - href: "Data Cleaning.ipynb"
+            text: "Notebook 1 – Data cleaning"
+          - href: "by action.ipynb"
+            text: "Notebook 2 – Trips by action"
+          - href: "verification.ipynb"
+            text: "Notebook 3 – Cross-user verification"
+          - href: "conclusion.ipynb"
+            text: "Findings and conclusion"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+
+publish:
+  gh-pages: true
+

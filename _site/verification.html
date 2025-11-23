@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Notebook 3 — Cross-user verification of daily exploration patterns – Geolife Daily Mobility</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-b4f4d60cfbc3b1e3dbcd7f2eeb7587ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./LR.html">Analysis</a></li><li class="breadcrumb-item"><a href="./verification.html">Notebook 3 – Cross-user verification</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./LR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Data Cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebook 1 – Data cleaning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./by action.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notebook 2 – Trips by action</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./verification.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Notebook 3 – Cross-user verification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Findings and conclusion</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#more-geolife-users" id="toc-more-geolife-users" class="nav-link active" data-scroll-target="#more-geolife-users">1. More Geolife users</a></li>
+  <li><a href="#per-user-trip-level-summary" id="toc-per-user-trip-level-summary" class="nav-link" data-scroll-target="#per-user-trip-level-summary">2. Per-user trip-level summary</a></li>
+  <li><a href="#cross-user-trip-level-going-home-hazards" id="toc-cross-user-trip-level-going-home-hazards" class="nav-link" data-scroll-target="#cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</a></li>
+  <li><a href="#cross-user-within-trip-exploration-pv" id="toc-cross-user-within-trip-exploration-pv" class="nav-link" data-scroll-target="#cross-user-within-trip-exploration-pv">4. Cross-user within-trip exploration (Pv)</a></li>
+  <li><a href="#model-fit-for-hazard-and-pv-curves" id="toc-model-fit-for-hazard-and-pv-curves" class="nav-link" data-scroll-target="#model-fit-for-hazard-and-pv-curves">5. Model fit for hazard and Pv curves</a>
+  <ul class="collapse">
+  <li><a href="#a-hazard-fit-best-and-worst-users" id="toc-a-hazard-fit-best-and-worst-users" class="nav-link" data-scroll-target="#a-hazard-fit-best-and-worst-users">5.a Hazard fit: best and worst users</a></li>
+  <li><a href="#b-pv-fit-best-and-worst-users" id="toc-b-pv-fit-best-and-worst-users" class="nav-link" data-scroll-target="#b-pv-fit-best-and-worst-users">5.b Pv fit: best and worst users</a></li>
+  <li><a href="#user-typology-in-multivariate-trip-space" id="toc-user-typology-in-multivariate-trip-space" class="nav-link" data-scroll-target="#user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./LR.html">Analysis</a></li><li class="breadcrumb-item"><a href="./verification.html">Notebook 3 – Cross-user verification</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Notebook 3 — Cross-user verification of daily exploration patterns</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="more-geolife-users" class="level3">
+<h3 class="anchored" data-anchor-id="more-geolife-users">1. More Geolife users</h3>
+<p>Notebook 3 moves from single-user analysis to a cross-user perspective on daily mobility. Building on the visit-level tables constructed in the previous notebooks, it aggregates data for a set of long-coverage Geolife users (data/visit_level_table_XXX.csv) and asks how their trip-level “going home” and exploration behaviour compares.</p>
+<p>The workflow has three components.</p>
+<p>First, I define a consistent sample of users with sufficiently long observation windows and, for each of them, reconstruct home–home trips by attaching a trip identifier and within-trip stop order to every visit.</p>
+<p>Second, I summarise each user’s mobility with a compact set of trip-level statistics, including the number of active days, the frequency and length of home–home trips, and simple indicators of how often non-home stops correspond to first-time places (Pv) versus revisits.</p>
+<p>Third, I compare going-home hazards and within-trip exploration patterns across individuals by fitting user-specific discrete-time logit models in the stop order index, which yield a small number of interpretable parameters describing both the overall level and the within-trip dynamics of “going home” and “exploring” for each person.</p>
+<div id="01183d36" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ignore"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    message<span class="op">=</span><span class="st">"DataFrameGroupBy.apply operated on the grouping columns"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    category<span class="op">=</span><span class="pp">FutureWarning</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ignore"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    message<span class="op">=</span><span class="st">"Parsing dates in </span><span class="sc">%d</span><span class="st">/%m/%Y format"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    category<span class="op">=</span><span class="pp">UserWarning</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"default"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> <span class="st">"data"</span>  <span class="co"># folder containing visit_level_table_XXX.csv</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-selected long-coverage users (can be updated if needed)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>LONG_USERS <span class="op">=</span> [</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"004"</span>, <span class="st">"003"</span>, <span class="st">"017"</span>, <span class="st">"025"</span>, <span class="st">"030"</span>, <span class="st">"126"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"062"</span>, <span class="st">"084"</span>, <span class="st">"039"</span>, <span class="st">"041"</span>, <span class="st">"022"</span>, <span class="st">"014"</span>, <span class="st">"000"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"002"</span>, <span class="st">"092"</span>, <span class="st">"112"</span>, <span class="st">"104"</span>, <span class="st">"052"</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_visit_table_from_csv(user_id: <span class="bu">str</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                              data_dir: <span class="bu">str</span> <span class="op">=</span> DATA_DIR,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                              verbose: <span class="bu">bool</span> <span class="op">=</span> <span class="va">True</span>) <span class="op">-&gt;</span> pd.DataFrame <span class="op">|</span> <span class="va">None</span>:</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">    Load visit_level_table_XXX.csv for one user and parse timestamps.</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">    Assumes the schema from Notebook 1 / 2:</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">      - person</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">      - date, first_time, last_time</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">      - is_home, next_step, dist_home_m</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">      - visit_order_in_day, is_pv, is_pn</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    fname <span class="op">=</span> <span class="ss">f"visit_level_table_</span><span class="sc">{</span>user_id<span class="sc">}</span><span class="ss">.csv"</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> os.path.join(data_dir, fname)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(path):</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"[skip] </span><span class="sc">{</span>fname<span class="sc">}</span><span class="ss"> not found at </span><span class="sc">{</span>path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    vt <span class="op">=</span> pd.read_csv(path)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vt.empty:</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> verbose:</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"[skip] </span><span class="sc">{</span>fname<span class="sc">}</span><span class="ss"> is empty"</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    vt[<span class="st">"date"</span>] <span class="op">=</span> pd.to_datetime(vt[<span class="st">"date"</span>]).dt.date</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    vt[<span class="st">"first_dt"</span>] <span class="op">=</span> pd.to_datetime(vt[<span class="st">"date"</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> vt[<span class="st">"first_time"</span>])</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    vt[<span class="st">"last_dt"</span>] <span class="op">=</span> pd.to_datetime(vt[<span class="st">"date"</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> vt[<span class="st">"last_time"</span>])</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    vt <span class="op">=</span> (</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        vt.sort_values([<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"first_dt"</span>])</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>          .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vt</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_trip_cols_one_day(df_day: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">    For a single (person, date), label home–home trip episodes.</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co">    trip_id:</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co">      0 if no trip yet; 1,2,... for successive trips in that day</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co">    action_order_in_trip:</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co">      0 for HOME visits; 1,2,... for non-home stops within a trip</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    df_day <span class="op">=</span> df_day.sort_values(<span class="st">"first_dt"</span>).copy()</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    trip_id <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    action_order <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> <span class="va">False</span>  <span class="co"># currently away from HOME?</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>    trip_ids <span class="op">=</span> []</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    action_orders <span class="op">=</span> []</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> df_day.iterrows():</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row[<span class="st">"is_home"</span>] <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>            out <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>            action_order <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>            trip_ids.append(trip_id)</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>            action_orders.append(<span class="dv">0</span>)</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> out:</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>                trip_id <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>                action_order <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>                out <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>                action_order <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>            trip_ids.append(trip_id)</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>            action_orders.append(action_order)</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>    df_day[<span class="st">"trip_id"</span>] <span class="op">=</span> trip_ids</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>    df_day[<span class="st">"action_order_in_trip"</span>] <span class="op">=</span> action_orders</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_day</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> attach_trip_structure(vt: pd.DataFrame) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Apply add_trip_cols_one_day to each (person, date)."""</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>    vt_trips <span class="op">=</span> (</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>        vt.groupby([<span class="st">"person"</span>, <span class="st">"date"</span>], group_keys<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>          .<span class="bu">apply</span>(add_trip_cols_one_day)</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>          .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vt_trips</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="per-user-trip-level-summary" class="level3">
+<h3 class="anchored" data-anchor-id="per-user-trip-level-summary">2. Per-user trip-level summary</h3>
+<p>In this step I construct a compact trip-level “fingerprint” for each long-coverage user. Starting from the visit-level tables, I first re-attach home–home trip structure and then summarise overall trip patterns: the number of days with data, the number of days with at least one non-home stop, the total number of trips, and the distribution of non-home stops per trip (mean, median, maximum). On top of this, I estimate a discrete-time going-home model for each user, collapsing the full hazard curve into three parameters: the empirical probability of going home after the first stop, a pooled hazard for stops two and above, and a logit slope describing how the going-home probability changes with stop order. Finally, I fit a within-trip exploration model that records the overall share of first-time places (Pv) among non-home stops and an odds ratio describing how the odds of visiting a new place change with each additional stop in the trip. The resulting <code>summary_df</code> has one row per user and collects these trip, hazard, and exploration statistics for subsequent cross-user comparison.</p>
+<div id="c75725f7" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarise_trip_structure(vt_trips: pd.DataFrame) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Basic trip-level stats:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">      - n_days_total: days with any record</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">      - n_days_nonhome: days with at least one non-home stop</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">      - n_trips: number of home–home trips</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">      - mean / median / max non-home stops per trip</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    nonhome <span class="op">=</span> vt_trips[</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"is_home"</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"action_order_in_trip"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    ].copy()</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    n_days_total <span class="op">=</span> vt_trips[<span class="st">"date"</span>].nunique()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    n_days_nonhome <span class="op">=</span> nonhome[<span class="st">"date"</span>].nunique()</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    trips <span class="op">=</span> (</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        nonhome[[<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"trip_id"</span>, <span class="st">"action_order_in_trip"</span>]]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        .groupby([<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"trip_id"</span>], as_index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        .agg(n_stops<span class="op">=</span>(<span class="st">"action_order_in_trip"</span>, <span class="st">"max"</span>))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> trips.empty:</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_days_total"</span>: n_days_total,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_days_nonhome"</span>: n_days_nonhome,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n_trips"</span>: <span class="dv">0</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            <span class="st">"mean_stops_per_trip"</span>: np.nan,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">"median_stops_per_trip"</span>: np.nan,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            <span class="st">"max_stops_per_trip"</span>: np.nan,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"n_days_total"</span>: n_days_total,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">"n_days_nonhome"</span>: n_days_nonhome,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"n_trips"</span>: <span class="bu">len</span>(trips),</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mean_stops_per_trip"</span>: trips[<span class="st">"n_stops"</span>].mean(),</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"median_stops_per_trip"</span>: trips[<span class="st">"n_stops"</span>].median(),</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"max_stops_per_trip"</span>: trips[<span class="st">"n_stops"</span>].<span class="bu">max</span>(),</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_hazard_trip(vt_trips: pd.DataFrame,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>                    maxk: <span class="bu">int</span> <span class="op">=</span> <span class="dv">30</span>,</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>                    night_hour: <span class="bu">int</span> <span class="op">=</span> <span class="dv">23</span>,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>                    near_home_m: <span class="bu">float</span> <span class="op">=</span> <span class="fl">750.0</span>,</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>                    min_risk: <span class="bu">int</span> <span class="op">=</span> <span class="dv">20</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="co">    Trip-level discrete-time hazard of going home:</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="co">      - hazard_h1: empirical hazard at k=1</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="co">      - hazard_h2_const: pooled hazard over k&gt;=2</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co">      - hazard_beta_k: logit slope of hazard vs k for k&gt;=2</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    vis <span class="op">=</span> vt_trips[</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"is_home"</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"action_order_in_trip"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    ].copy()</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    vis <span class="op">=</span> vis[vis[<span class="st">"action_order_in_trip"</span>] <span class="op">&lt;=</span> maxk].copy()</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vis.empty:</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>            <span class="st">"hazard_h1"</span>: np.nan,</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>            <span class="st">"hazard_h2_const"</span>: np.nan,</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>            <span class="st">"hazard_beta_k"</span>: np.nan,</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    vis[<span class="st">"outcome"</span>] <span class="op">=</span> np.where(</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>        vis[<span class="st">"next_step"</span>] <span class="op">==</span> <span class="st">"home"</span>, <span class="st">"home"</span>,</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>        np.where(vis[<span class="st">"next_step"</span>].isin([<span class="st">"sw"</span>, <span class="st">"pv"</span>, <span class="st">"pn"</span>]), <span class="st">"explore"</span>, <span class="st">"end"</span>)</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Last non-home stop in each trip</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    last_mask <span class="op">=</span> vis.groupby(</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"trip_id"</span>]</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    ).cumcount(ascending<span class="op">=</span><span class="va">False</span>).eq(<span class="dv">0</span>)</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    last_time_dt <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>        vis[<span class="st">"last_time"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"%H:%M:%S"</span>, errors<span class="op">=</span><span class="st">"coerce"</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    late <span class="op">=</span> last_time_dt.dt.hour.ge(night_hour)</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    near <span class="op">=</span> vis[<span class="st">"dist_home_m"</span>].le(near_home_m)</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    vis.loc[</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>        last_mask <span class="op">&amp;</span> (vis[<span class="st">"outcome"</span>] <span class="op">==</span> <span class="st">"end"</span>) <span class="op">&amp;</span> (late <span class="op">|</span> near),</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>        <span class="st">"outcome"</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>    ] <span class="op">=</span> <span class="st">"home"</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>    pertrip_maxk <span class="op">=</span> (</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>        vis.groupby([<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"trip_id"</span>])[<span class="st">"action_order_in_trip"</span>]</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>           .<span class="bu">max</span>()</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    at_risk <span class="op">=</span> pd.Series(</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>        {k: <span class="bu">int</span>((pertrip_maxk <span class="op">&gt;=</span> k).<span class="bu">sum</span>()) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, maxk <span class="op">+</span> <span class="dv">1</span>)},</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">"at_risk"</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    home_k <span class="op">=</span> (</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>        vis[vis[<span class="st">"outcome"</span>] <span class="op">==</span> <span class="st">"home"</span>]</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>        .groupby(<span class="st">"action_order_in_trip"</span>)</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>        .size()</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>        .reindex(<span class="bu">range</span>(<span class="dv">1</span>, maxk <span class="op">+</span> <span class="dv">1</span>), fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>        .rename(<span class="st">"home_k"</span>)</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>    hazard <span class="op">=</span> (home_k <span class="op">/</span> at_risk.replace(<span class="dv">0</span>, np.nan)).rename(<span class="st">"hazard"</span>)</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>    haz_df <span class="op">=</span> pd.concat([home_k, at_risk, hazard], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># k = 1</span></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    hazard_h1 <span class="op">=</span> haz_df.loc[<span class="dv">1</span>, <span class="st">"hazard"</span>] <span class="cf">if</span> at_risk.loc[<span class="dv">1</span>] <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> np.nan</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    <span class="co"># pooled hazard for k &gt;= 2</span></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    mask_ge2 <span class="op">=</span> (haz_df.index <span class="op">&gt;=</span> <span class="dv">2</span>) <span class="op">&amp;</span> (haz_df[<span class="st">"at_risk"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mask_ge2.<span class="bu">any</span>():</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>        H_num <span class="op">=</span> haz_df.loc[mask_ge2, <span class="st">"home_k"</span>].<span class="bu">sum</span>()</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>        H_den <span class="op">=</span> haz_df.loc[mask_ge2, <span class="st">"at_risk"</span>].<span class="bu">sum</span>()</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>        hazard_h2_const <span class="op">=</span> H_num <span class="op">/</span> H_den <span class="cf">if</span> H_den <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> np.nan</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>        hazard_h2_const <span class="op">=</span> np.nan</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>    <span class="co"># logit slope for k &gt;= 2</span></span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>    haz_fit <span class="op">=</span> (</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>        haz_df</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>        .loc[haz_df.index <span class="op">&gt;=</span> <span class="dv">2</span>]</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>        .loc[<span class="kw">lambda</span> df: df[<span class="st">"at_risk"</span>] <span class="op">&gt;=</span> min_risk]</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>        .copy()</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> haz_fit.empty:</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>        hazard_beta_k <span class="op">=</span> np.nan</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>        k_fit <span class="op">=</span> haz_fit.index.values.astype(<span class="bu">float</span>)</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> sm.add_constant(k_fit)</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> np.column_stack([</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>            haz_fit[<span class="st">"home_k"</span>].values,</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>            (haz_fit[<span class="st">"at_risk"</span>] <span class="op">-</span> haz_fit[<span class="st">"home_k"</span>]).values</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>        glm <span class="op">=</span> sm.GLM(y, X, family<span class="op">=</span>sm.families.Binomial())</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>        res_haz <span class="op">=</span> glm.fit()</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>        hazard_beta_k <span class="op">=</span> res_haz.params[<span class="dv">1</span>]</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hazard_h1"</span>: hazard_h1,</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hazard_h2_const"</span>: hazard_h2_const,</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hazard_beta_k"</span>: hazard_beta_k,</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_pv_trip(vt_trips: pd.DataFrame,</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>                maxk: <span class="bu">int</span> <span class="op">=</span> <span class="dv">30</span>,</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>                min_n: <span class="bu">int</span> <span class="op">=</span> <span class="dv">30</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a><span class="co">    Within-trip exploration model:</span></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a><span class="co">      - overall_pv_share: mean(is_pv) among non-home trip stops</span></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a><span class="co">      - pv_odds_ratio_per_stop: odds ratio per +1 stop from logit(P(Pv) ~ k_centered)</span></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>    vis_places <span class="op">=</span> vt_trips[</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"is_home"</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"action_order_in_trip"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>    ].copy()</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>    vis_places <span class="op">=</span> vis_places[vis_places[<span class="st">"action_order_in_trip"</span>] <span class="op">&lt;=</span> maxk].copy()</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vis_places.empty:</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>            <span class="st">"overall_pv_share"</span>: np.nan,</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>            <span class="st">"pv_odds_ratio_per_stop"</span>: np.nan,</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>    overall_pv <span class="op">=</span> vis_places[<span class="st">"is_pv"</span>].mean()</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>    pv_by_k <span class="op">=</span> (</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>        vis_places</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>        .groupby(<span class="st">"action_order_in_trip"</span>)[[<span class="st">"is_pv"</span>, <span class="st">"is_pn"</span>]]</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>        .agg(</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>            pv_cnt<span class="op">=</span>(<span class="st">"is_pv"</span>, <span class="st">"sum"</span>),</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>            pn_cnt<span class="op">=</span>(<span class="st">"is_pn"</span>, <span class="st">"sum"</span>),</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>            n<span class="op">=</span>(<span class="st">"is_pv"</span>, <span class="st">"size"</span>)</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>        .reset_index()</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>    valid_k <span class="op">=</span> pv_by_k.loc[pv_by_k[<span class="st">"n"</span>] <span class="op">&gt;=</span> min_n, <span class="st">"action_order_in_trip"</span>]</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>    vis_lr_sub <span class="op">=</span> vis_places[</span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>        vis_places[<span class="st">"action_order_in_trip"</span>].isin(valid_k)</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>    ].copy()</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vis_lr_sub.empty:</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>            <span class="st">"overall_pv_share"</span>: overall_pv,</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>            <span class="st">"pv_odds_ratio_per_stop"</span>: np.nan,</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>    vis_lr_sub[<span class="st">"k_centered"</span>] <span class="op">=</span> (</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>        vis_lr_sub[<span class="st">"action_order_in_trip"</span>]</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> vis_lr_sub[<span class="st">"action_order_in_trip"</span>].mean()</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> sm.add_constant(vis_lr_sub[<span class="st">"k_centered"</span>])</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> vis_lr_sub[<span class="st">"is_pv"</span>]</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>    logit_model <span class="op">=</span> sm.Logit(y, X)</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> logit_model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>    beta1 <span class="op">=</span> res.params[<span class="st">"k_centered"</span>]</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>    odds_ratio <span class="op">=</span> <span class="bu">float</span>(np.exp(beta1))</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>        <span class="st">"overall_pv_share"</span>: overall_pv,</span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pv_odds_ratio_per_stop"</span>: odds_ratio,</span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarise_user_trip_behaviour(uid: <span class="bu">str</span>) <span class="op">-&gt;</span> pd.Series <span class="op">|</span> <span class="va">None</span>:</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a><span class="co">    Wrapper:</span></span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a><span class="co">      - load visit table</span></span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a><span class="co">      - attach trip structure</span></span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a><span class="co">      - compute trip stats, hazard stats, Pv stats</span></span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a><span class="co">      - return as a single-row Series</span></span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>    vt <span class="op">=</span> load_visit_table_from_csv(uid)</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vt <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> vt.empty:</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"[skip] user </span><span class="sc">{</span>uid<span class="sc">}</span><span class="ss">: no usable visit table."</span>)</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>    vt_trips <span class="op">=</span> attach_trip_structure(vt)</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>    trip_stats <span class="op">=</span> summarise_trip_structure(vt_trips)</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>    haz_stats <span class="op">=</span> fit_hazard_trip(vt_trips)</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>    pv_stats <span class="op">=</span> fit_pv_trip(vt_trips)</span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>    all_stats <span class="op">=</span> {</span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>        <span class="st">"uid"</span>: uid,</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>trip_stats,</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>haz_stats,</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>pv_stats,</span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(all_stats)</span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a><span class="co"># run over all long users and build summary_df</span></span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a>summary_rows <span class="op">=</span> []</span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uid <span class="kw">in</span> LONG_USERS:</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> summarise_user_trip_behaviour(uid)</span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> s <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>        summary_rows.append(s)</span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame(summary_rows).sort_values(<span class="st">"uid"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>summary_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">uid</th>
+<th data-quarto-table-cell-role="th">n_days_total</th>
+<th data-quarto-table-cell-role="th">n_days_nonhome</th>
+<th data-quarto-table-cell-role="th">n_trips</th>
+<th data-quarto-table-cell-role="th">mean_stops_per_trip</th>
+<th data-quarto-table-cell-role="th">median_stops_per_trip</th>
+<th data-quarto-table-cell-role="th">max_stops_per_trip</th>
+<th data-quarto-table-cell-role="th">hazard_h1</th>
+<th data-quarto-table-cell-role="th">hazard_h2_const</th>
+<th data-quarto-table-cell-role="th">hazard_beta_k</th>
+<th data-quarto-table-cell-role="th">overall_pv_share</th>
+<th data-quarto-table-cell-role="th">pv_odds_ratio_per_stop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>000</td>
+<td>115</td>
+<td>108</td>
+<td>429</td>
+<td>3.412587</td>
+<td>1.0</td>
+<td>98</td>
+<td>0.657343</td>
+<td>0.137970</td>
+<td>-0.092337</td>
+<td>0.180704</td>
+<td>1.266709</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>002</td>
+<td>110</td>
+<td>108</td>
+<td>146</td>
+<td>5.794521</td>
+<td>4.5</td>
+<td>30</td>
+<td>0.171233</td>
+<td>0.147143</td>
+<td>0.039253</td>
+<td>0.203310</td>
+<td>1.131430</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>003</td>
+<td>220</td>
+<td>218</td>
+<td>327</td>
+<td>8.284404</td>
+<td>6.0</td>
+<td>50</td>
+<td>0.131498</td>
+<td>0.068045</td>
+<td>-0.029529</td>
+<td>0.122688</td>
+<td>1.093674</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>004</td>
+<td>242</td>
+<td>242</td>
+<td>532</td>
+<td>4.748120</td>
+<td>2.0</td>
+<td>33</td>
+<td>0.218045</td>
+<td>0.132663</td>
+<td>-0.092148</td>
+<td>0.113799</td>
+<td>1.108161</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>014</td>
+<td>118</td>
+<td>117</td>
+<td>162</td>
+<td>3.833333</td>
+<td>3.0</td>
+<td>14</td>
+<td>0.111111</td>
+<td>0.115468</td>
+<td>-0.209144</td>
+<td>0.227053</td>
+<td>1.060749</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>017</td>
+<td>187</td>
+<td>187</td>
+<td>335</td>
+<td>5.776119</td>
+<td>4.0</td>
+<td>28</td>
+<td>0.125373</td>
+<td>0.088125</td>
+<td>-0.046627</td>
+<td>0.193798</td>
+<td>1.022117</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>022</td>
+<td>120</td>
+<td>116</td>
+<td>193</td>
+<td>5.839378</td>
+<td>3.0</td>
+<td>28</td>
+<td>0.207254</td>
+<td>0.064240</td>
+<td>-0.099730</td>
+<td>0.167702</td>
+<td>1.026406</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>025</td>
+<td>143</td>
+<td>135</td>
+<td>245</td>
+<td>5.028571</td>
+<td>4.0</td>
+<td>29</td>
+<td>0.191837</td>
+<td>0.177305</td>
+<td>0.049723</td>
+<td>0.191558</td>
+<td>1.110949</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>030</td>
+<td>179</td>
+<td>179</td>
+<td>285</td>
+<td>7.789474</td>
+<td>6.0</td>
+<td>41</td>
+<td>0.070175</td>
+<td>0.072025</td>
+<td>-0.069146</td>
+<td>0.098137</td>
+<td>1.068854</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>039</td>
+<td>140</td>
+<td>139</td>
+<td>163</td>
+<td>7.312883</td>
+<td>6.0</td>
+<td>30</td>
+<td>0.079755</td>
+<td>0.083576</td>
+<td>0.012538</td>
+<td>0.215604</td>
+<td>1.067058</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>041</td>
+<td>137</td>
+<td>137</td>
+<td>287</td>
+<td>4.867596</td>
+<td>4.0</td>
+<td>29</td>
+<td>0.156794</td>
+<td>0.168468</td>
+<td>-0.002936</td>
+<td>0.350036</td>
+<td>0.999954</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>052</td>
+<td>96</td>
+<td>94</td>
+<td>120</td>
+<td>8.175000</td>
+<td>7.0</td>
+<td>31</td>
+<td>0.058333</td>
+<td>0.079070</td>
+<td>0.013165</td>
+<td>0.193878</td>
+<td>1.026394</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>062</td>
+<td>140</td>
+<td>138</td>
+<td>234</td>
+<td>4.286325</td>
+<td>3.0</td>
+<td>32</td>
+<td>0.243590</td>
+<td>0.177314</td>
+<td>-0.047536</td>
+<td>0.240759</td>
+<td>1.113801</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>084</td>
+<td>138</td>
+<td>137</td>
+<td>194</td>
+<td>5.659794</td>
+<td>3.0</td>
+<td>35</td>
+<td>0.149485</td>
+<td>0.090100</td>
+<td>-0.121527</td>
+<td>0.305581</td>
+<td>1.062512</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>092</td>
+<td>107</td>
+<td>106</td>
+<td>135</td>
+<td>3.170370</td>
+<td>2.0</td>
+<td>25</td>
+<td>0.177778</td>
+<td>0.058020</td>
+<td>-0.442773</td>
+<td>0.228972</td>
+<td>1.247307</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>104</td>
+<td>102</td>
+<td>93</td>
+<td>117</td>
+<td>3.726496</td>
+<td>2.0</td>
+<td>15</td>
+<td>0.239316</td>
+<td>0.134796</td>
+<td>0.004196</td>
+<td>0.295872</td>
+<td>1.200896</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>112</td>
+<td>101</td>
+<td>81</td>
+<td>91</td>
+<td>3.912088</td>
+<td>2.0</td>
+<td>22</td>
+<td>0.395604</td>
+<td>0.166038</td>
+<td>-0.226320</td>
+<td>0.303371</td>
+<td>2.364714</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>126</td>
+<td>163</td>
+<td>154</td>
+<td>199</td>
+<td>5.587940</td>
+<td>4.0</td>
+<td>29</td>
+<td>0.090452</td>
+<td>0.067908</td>
+<td>0.025523</td>
+<td>0.231115</td>
+<td>1.066412</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="cross-user-trip-level-going-home-hazards" class="level3">
+<h3 class="anchored" data-anchor-id="cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</h3>
+<p>In this step I move from single-user analysis to a pooled view of going-home behaviour across all long-coverage users. Using the visit-level tables with trip structure attached, I reconstruct the discrete-time hazard of going home within a trip for each user separately. For every non-home stop order (k), I identify how many trips are still “at risk” at that stop and how many of them go home immediately afterwards. These counts are used to form the empirical hazard curve and to fit a simple logit model in the stop index, while keeping the first-stop hazard at its empirical value. The resulting fitted hazard curves provide a compact description of how likely each user is to return home as a trip unfolds, conditional on the trip having already reached a given stop.</p>
+<div id="2da8d2b4" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MAXK <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MIN_RISK <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_trip_hazard_curve(vt_trips: pd.DataFrame,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                              maxk: <span class="bu">int</span> <span class="op">=</span> MAXK,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                              min_risk: <span class="bu">int</span> <span class="op">=</span> MIN_RISK) <span class="op">-&gt;</span> <span class="bu">dict</span> <span class="op">|</span> <span class="va">None</span>:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Given a visit table with trip_id and action_order_in_trip,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">    compute:</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">      - empirical hazard h_k</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">      - fitted hazard curve via logit GLM</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns dict with:</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">      - k_axis, haz_emp, haz_hat, haz_df</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    vis <span class="op">=</span> vt_trips[</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"is_home"</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"action_order_in_trip"</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"action_order_in_trip"</span>] <span class="op">&lt;=</span> maxk)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    ].copy()</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vis.empty:</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    vis[<span class="st">"outcome"</span>] <span class="op">=</span> np.where(</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        vis[<span class="st">"next_step"</span>] <span class="op">==</span> <span class="st">"home"</span>, <span class="st">"home"</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        np.where(vis[<span class="st">"next_step"</span>].isin([<span class="st">"sw"</span>, <span class="st">"pv"</span>, <span class="st">"pn"</span>]), <span class="st">"explore"</span>, <span class="st">"end"</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    last_mask <span class="op">=</span> vis.groupby(</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"trip_id"</span>]</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    ).cumcount(ascending<span class="op">=</span><span class="va">False</span>).eq(<span class="dv">0</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    NIGHT_HOUR <span class="op">=</span> <span class="dv">23</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    NEAR_HOME_M <span class="op">=</span> <span class="dv">750</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    last_time_dt <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        vis[<span class="st">"last_time"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"%H:%M:%S"</span>, errors<span class="op">=</span><span class="st">"coerce"</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    late <span class="op">=</span> last_time_dt.dt.hour.ge(NIGHT_HOUR)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    near <span class="op">=</span> vis[<span class="st">"dist_home_m"</span>].le(NEAR_HOME_M)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    vis.loc[</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        last_mask <span class="op">&amp;</span> (vis[<span class="st">"outcome"</span>] <span class="op">==</span> <span class="st">"end"</span>) <span class="op">&amp;</span> (late <span class="op">|</span> near),</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">"outcome"</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    ] <span class="op">=</span> <span class="st">"home"</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    pertrip_maxk <span class="op">=</span> (</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        vis.groupby([<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"trip_id"</span>])[<span class="st">"action_order_in_trip"</span>]</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>           .<span class="bu">max</span>()</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    at_risk <span class="op">=</span> pd.Series(</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        {k: <span class="bu">int</span>((pertrip_maxk <span class="op">&gt;=</span> k).<span class="bu">sum</span>()) <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, maxk <span class="op">+</span> <span class="dv">1</span>)},</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">"at_risk"</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    home_k <span class="op">=</span> (</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>        vis[vis[<span class="st">"outcome"</span>] <span class="op">==</span> <span class="st">"home"</span>]</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        .groupby(<span class="st">"action_order_in_trip"</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        .size()</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>        .reindex(<span class="bu">range</span>(<span class="dv">1</span>, maxk <span class="op">+</span> <span class="dv">1</span>), fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>        .rename(<span class="st">"home_k"</span>)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    hazard <span class="op">=</span> (home_k <span class="op">/</span> at_risk.replace(<span class="dv">0</span>, np.nan)).rename(<span class="st">"hazard"</span>)</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    haz_df <span class="op">=</span> pd.concat([home_k, at_risk, hazard], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    k_axis <span class="op">=</span> np.arange(<span class="dv">1</span>, maxk <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    haz_emp <span class="op">=</span> hazard.reindex(k_axis).to_numpy()</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">all</span>(np.isnan(haz_emp)):</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    <span class="co"># logit fit on k &gt;= 2</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    haz_fit <span class="op">=</span> (</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>        haz_df</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        .loc[haz_df.index <span class="op">&gt;=</span> <span class="dv">2</span>]</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>        .loc[<span class="kw">lambda</span> df: df[<span class="st">"at_risk"</span>] <span class="op">&gt;=</span> min_risk]</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>        .copy()</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> haz_fit.empty:</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>        haz_hat <span class="op">=</span> haz_emp.copy()</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>        k_fit <span class="op">=</span> haz_fit.index.values.astype(<span class="bu">float</span>)</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> sm.add_constant(k_fit)</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> np.column_stack([</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>            haz_fit[<span class="st">"home_k"</span>].values,</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>            (haz_fit[<span class="st">"at_risk"</span>] <span class="op">-</span> haz_fit[<span class="st">"home_k"</span>]).values</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>        ])</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>        glm <span class="op">=</span> sm.GLM(y, X, family<span class="op">=</span>sm.families.Binomial())</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>        res_haz <span class="op">=</span> glm.fit()</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>        alpha, beta <span class="op">=</span> res_haz.params[<span class="dv">0</span>], res_haz.params[<span class="dv">1</span>]</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>        X_pred <span class="op">=</span> sm.add_constant(k_axis[<span class="dv">1</span>:])</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>        haz_hat_tail <span class="op">=</span> res_haz.predict(X_pred)</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>        h1_emp <span class="op">=</span> haz_df.loc[<span class="dv">1</span>, <span class="st">"hazard"</span>]</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>        haz_hat <span class="op">=</span> np.concatenate([[h1_emp], haz_hat_tail])</span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>        <span class="st">"k_axis"</span>: k_axis,</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>        <span class="st">"haz_emp"</span>: haz_emp,</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>        <span class="st">"haz_hat"</span>: haz_hat,</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>        <span class="st">"haz_df"</span>: haz_df,</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="co"># compute hazard curves for all users</span></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>hazard_curves <span class="op">=</span> {}</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uid <span class="kw">in</span> summary_df[<span class="st">"uid"</span>]:</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>    vt <span class="op">=</span> load_visit_table_from_csv(uid, verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vt <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> vt.empty:</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>    vt_trips <span class="op">=</span> attach_trip_structure(vt)</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>    curve <span class="op">=</span> compute_trip_hazard_curve(vt_trips, maxk<span class="op">=</span>MAXK, min_risk<span class="op">=</span>MIN_RISK)</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> curve <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>        hazard_curves[uid] <span class="op">=</span> curve</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Users with usable hazard curves:"</span>, <span class="bu">len</span>(hazard_curves))</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="co"># overlay fitted hazards across users</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uid, hc <span class="kw">in</span> hazard_curves.items():</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>    plt.plot(hc[<span class="st">"k_axis"</span>], hc[<span class="st">"haz_hat"</span>], alpha<span class="op">=</span><span class="fl">0.6</span>, linewidth<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span>uid)</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Stop order k in trip"</span>)</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"P(go home | trip has reached k)"</span>)</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">1</span>, MAXK)</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Trip-level going-home hazard — fitted curves across users"</span>)</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>plt.legend(ncol<span class="op">=</span><span class="dv">3</span>, fontsize<span class="op">=</span><span class="dv">8</span>, frameon<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Users with usable hazard curves: 18</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="verification_files/figure-html/cell-4-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The figure overlays the fitted going-home hazard curves for all selected users. The height of each curve reflects the overall tendency to return home during a trip, whereas its shape shows how this tendency evolves with the number of non-home stops already made. Most users exhibit a very high hazard at the first stop, corresponding to short “one-stop errand” trips, followed by a much lower and relatively stable hazard once the trip has continued beyond the initial stops. In other words, after a trip has survived the early stage, additional stops add only a modest incremental chance of going home. A few users display slightly upward-sloping tails at larger stop orders; these patterns are typically associated with sparse data for very long trips, where a small number of observed returns can produce an apparently rising hazard in the far tail rather than indicating a genuinely different behavioural regime.</p>
+</section>
+<section id="cross-user-within-trip-exploration-pv" class="level2">
+<h2 class="anchored" data-anchor-id="cross-user-within-trip-exploration-pv">4. Cross-user within-trip exploration (Pv)</h2>
+<p>In this step I summarise within-trip exploration behaviour across users using the Pv logit model. For each user, I first restrict attention to non-home stops within home–home trips and count, for each stop order (k ), how many of these stops are first-time places (Pv) versus revisits (Pn). Using these counts, I estimate a user-specific logit model where the stop order in the trip enters as a linear predictor (after recentring), and use the fitted model to obtain a smooth Pv probability curve over (k). The resulting fitted curves are then overlaid across users, so that differences in both the baseline exploration rate and the slope with respect to stop order can be inspected on a common scale.</p>
+<div id="4d20bca7" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>MAXK_PV <span class="op">=</span> <span class="dv">12</span>      <span class="co"># maximum stop order for Pv curves</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>MIN_N_PV <span class="op">=</span> <span class="dv">20</span>     <span class="co"># minimum n per k for fitting / error</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_pv_curve(vt_trips: pd.DataFrame,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                     maxk: <span class="bu">int</span> <span class="op">=</span> MAXK_PV,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                     min_n: <span class="bu">int</span> <span class="op">=</span> MIN_N_PV) <span class="op">-&gt;</span> <span class="bu">dict</span> <span class="op">|</span> <span class="va">None</span>:</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Given a visit table with trip_id and action_order_in_trip,</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">    compute:</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">      - empirical Pv share by stop order k</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">      - fitted Pv probability via logit in k</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns dict with:</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">      - k_axis, pv_emp, pv_hat, pv_df</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    vis_places <span class="op">=</span> vt_trips[</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"is_home"</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        (vt_trips[<span class="st">"action_order_in_trip"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    ].copy()</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    vis_places <span class="op">=</span> vis_places[vis_places[<span class="st">"action_order_in_trip"</span>] <span class="op">&lt;=</span> maxk].copy()</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vis_places.empty:</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    pv_by_k <span class="op">=</span> (</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        vis_places</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        .groupby(<span class="st">"action_order_in_trip"</span>)[[<span class="st">"is_pv"</span>, <span class="st">"is_pn"</span>]]</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        .agg(</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>            pv_cnt<span class="op">=</span>(<span class="st">"is_pv"</span>, <span class="st">"sum"</span>),</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>            pn_cnt<span class="op">=</span>(<span class="st">"is_pn"</span>, <span class="st">"sum"</span>),</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>            n<span class="op">=</span>(<span class="st">"is_pv"</span>, <span class="st">"size"</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    pv_by_k <span class="op">=</span> pv_by_k.reindex(<span class="bu">range</span>(<span class="dv">1</span>, maxk <span class="op">+</span> <span class="dv">1</span>), fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    denom <span class="op">=</span> pv_by_k[<span class="st">"pv_cnt"</span>] <span class="op">+</span> pv_by_k[<span class="st">"pn_cnt"</span>]</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    pv_emp <span class="op">=</span> (pv_by_k[<span class="st">"pv_cnt"</span>] <span class="op">/</span> denom.where(denom <span class="op">&gt;</span> <span class="dv">0</span>, np.nan)).to_numpy()</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    k_axis <span class="op">=</span> np.arange(<span class="dv">1</span>, maxk <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    valid_k <span class="op">=</span> pv_by_k.index[pv_by_k[<span class="st">"n"</span>] <span class="op">&gt;=</span> min_n]</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(valid_k) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>            <span class="st">"k_axis"</span>: k_axis,</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>            <span class="st">"pv_emp"</span>: pv_emp,</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>            <span class="st">"pv_hat"</span>: pv_emp.copy(),</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>            <span class="st">"pv_df"</span>: pv_by_k.reset_index().rename(columns<span class="op">=</span>{<span class="st">"index"</span>: <span class="st">"k"</span>})</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    vis_lr_sub <span class="op">=</span> vis_places[</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        vis_places[<span class="st">"action_order_in_trip"</span>].isin(valid_k)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    ].copy()</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    mean_k <span class="op">=</span> vis_lr_sub[<span class="st">"action_order_in_trip"</span>].mean()</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    vis_lr_sub[<span class="st">"k_centered"</span>] <span class="op">=</span> vis_lr_sub[<span class="st">"action_order_in_trip"</span>] <span class="op">-</span> mean_k</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> sm.add_constant(vis_lr_sub[<span class="st">"k_centered"</span>])</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> vis_lr_sub[<span class="st">"is_pv"</span>]</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    logit_model <span class="op">=</span> sm.Logit(y, X)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> logit_model.fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    beta0 <span class="op">=</span> res.params[<span class="st">"const"</span>]</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    beta1 <span class="op">=</span> res.params[<span class="st">"k_centered"</span>]</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    k_centered_grid <span class="op">=</span> k_axis <span class="op">-</span> mean_k</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    lin_pred <span class="op">=</span> beta0 <span class="op">+</span> beta1 <span class="op">*</span> k_centered_grid</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    pv_hat <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">+</span> np.exp(<span class="op">-</span>lin_pred))</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    pv_df <span class="op">=</span> pv_by_k.reset_index().rename(columns<span class="op">=</span>{<span class="st">"index"</span>: <span class="st">"k"</span>})</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        <span class="st">"k_axis"</span>: k_axis,</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pv_emp"</span>: pv_emp,</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pv_hat"</span>: pv_hat,</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pv_df"</span>: pv_df,</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="co"># compute Pv curves for all users</span></span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>pv_curves <span class="op">=</span> {}</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uid <span class="kw">in</span> summary_df[<span class="st">"uid"</span>]:</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>    vt <span class="op">=</span> load_visit_table_from_csv(uid, verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vt <span class="kw">is</span> <span class="va">None</span> <span class="kw">or</span> vt.empty:</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>    vt_trips <span class="op">=</span> attach_trip_structure(vt)</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>    curve <span class="op">=</span> compute_pv_curve(vt_trips, maxk<span class="op">=</span>MAXK_PV, min_n<span class="op">=</span>MIN_N_PV)</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> curve <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>        pv_curves[uid] <span class="op">=</span> curve</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Users with usable Pv curves:"</span>, <span class="bu">len</span>(pv_curves))</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="co"># overlay fitted Pv curves across users</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uid, curve <span class="kw">in</span> pv_curves.items():</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>    k_axis <span class="op">=</span> curve[<span class="st">"k_axis"</span>]</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>    pv_hat <span class="op">=</span> curve[<span class="st">"pv_hat"</span>]</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>    n_k <span class="op">=</span> curve[<span class="st">"pv_df"</span>][<span class="st">"n"</span>].to_numpy()</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>    mask_fit <span class="op">=</span> n_k <span class="op">&gt;=</span> MIN_N_PV</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> mask_fit.<span class="bu">any</span>():</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>    plt.plot(</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>        k_axis[mask_fit],</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>        pv_hat[mask_fit],</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>        alpha<span class="op">=</span><span class="fl">0.6</span>,</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>        linewidth<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span>uid</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">1</span>, MAXK_PV)</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Stop order k in trip (non-home)"</span>)</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"P(stop is Pv)"</span>)</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Within-trip Pv probability — fitted curves across users"</span>)</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>plt.legend(ncol<span class="op">=</span><span class="dv">3</span>, fontsize<span class="op">=</span><span class="dv">8</span>, frameon<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Users with usable Pv curves: 18</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="verification_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The panel shows the fitted within-trip Pv probability curves for all long-coverage users, truncated at the first ten non-home stops and only displayed where each stop order has at least ten observations. Vertical differences between curves reflect how exploratory a user is on average, while the slope of each curve captures how exploration changes along the sequence of stops within a trip. Many users exhibit a gently upward-sloping pattern, indicating that the probability of visiting a first-time place tends to rise as the trip proceeds, whereas a few users have nearly flat curves, consistent with a roughly constant exploration rate across stops.</p>
+</section>
+<section id="model-fit-for-hazard-and-pv-curves" class="level2">
+<h2 class="anchored" data-anchor-id="model-fit-for-hazard-and-pv-curves">5. Model fit for hazard and Pv curves</h2>
+<p>To assess how well the simple logit specifications reproduce the empirical patterns, I construct a user-level goodness-of-fit measure for both models. For each user and each stop order within the range used in the analysis, I compare the empirical probabilities with the corresponding fitted values and compute a mean squared error (MSE) over the available stop orders. For the going-home hazard, the MSE is based on all non-missing hazard points, while for the Pv model it is restricted to stop orders with at least <code>MIN_N_PV</code> observations. The resulting MSEs are then merged back into the user summary table, providing a compact diagnostic of how well the fitted curves approximate the empirical profiles for each individual.</p>
+<div id="d9d32d9e" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># === 5.0 Compute per-user MSE for hazard and Pv ===</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.0.1 Hazard MSE for each user</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>haz_fit_rows <span class="op">=</span> []</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uid, hc <span class="kw">in</span> hazard_curves.items():</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    emp <span class="op">=</span> hc[<span class="st">"haz_emp"</span>]      <span class="co"># empirical hazard h_k</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    hat <span class="op">=</span> hc[<span class="st">"haz_hat"</span>]      <span class="co"># fitted hazard \hat{h}_k</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> <span class="op">~</span>np.isnan(emp)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> mask.<span class="bu">any</span>():</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    mse <span class="op">=</span> np.mean((emp[mask] <span class="op">-</span> hat[mask])<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    haz_fit_rows.append({</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"uid"</span>: uid,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hazard_mse"</span>: mse,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>haz_fit_df <span class="op">=</span> (</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame(haz_fit_rows)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>      .sort_values(<span class="st">"uid"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>      .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.0.2 Pv MSE for each user</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>pv_fit_rows <span class="op">=</span> []</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> uid, curve <span class="kw">in</span> pv_curves.items():</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    emp <span class="op">=</span> curve[<span class="st">"pv_emp"</span>]    <span class="co"># empirical Pv share by k</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    hat <span class="op">=</span> curve[<span class="st">"pv_hat"</span>]    <span class="co"># fitted Pv probability by k</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    n_k <span class="op">=</span> curve[<span class="st">"pv_df"</span>][<span class="st">"n"</span>].to_numpy()  <span class="co"># sample size per k</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> (<span class="op">~</span>np.isnan(emp)) <span class="op">&amp;</span> (n_k <span class="op">&gt;=</span> MIN_N_PV)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> mask.<span class="bu">any</span>():</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    mse <span class="op">=</span> np.mean((emp[mask] <span class="op">-</span> hat[mask])<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    pv_fit_rows.append({</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"uid"</span>: uid,</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"pv_mse"</span>: mse,</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>pv_fit_df <span class="op">=</span> (</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame(pv_fit_rows)</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>      .sort_values(<span class="st">"uid"</span>)</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>      .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="eacd144e" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.1 Hazard MSE summary</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>h_min   <span class="op">=</span> haz_fit_df[<span class="st">"hazard_mse"</span>].<span class="bu">min</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>h_med   <span class="op">=</span> haz_fit_df[<span class="st">"hazard_mse"</span>].median()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>h_max   <span class="op">=</span> haz_fit_df[<span class="st">"hazard_mse"</span>].<span class="bu">max</span>()</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>best_haz  <span class="op">=</span> haz_fit_df.nsmallest(<span class="dv">2</span>, <span class="st">"hazard_mse"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>worst_haz <span class="op">=</span> haz_fit_df.nlargest(<span class="dv">2</span>, <span class="st">"hazard_mse"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hazard MSE range: </span><span class="sc">{</span>h_min<span class="sc">:.4f}</span><span class="ss"> – </span><span class="sc">{</span>h_max<span class="sc">:.4f}</span><span class="ss">, median </span><span class="sc">{</span>h_med<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best hazard fits:"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(best_haz.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Worst hazard fits:"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(worst_haz.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.2 Pv MSE summary</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>p_min   <span class="op">=</span> pv_fit_df[<span class="st">"pv_mse"</span>].<span class="bu">min</span>()</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>p_med   <span class="op">=</span> pv_fit_df[<span class="st">"pv_mse"</span>].median()</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>p_max   <span class="op">=</span> pv_fit_df[<span class="st">"pv_mse"</span>].<span class="bu">max</span>()</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>best_pv  <span class="op">=</span> pv_fit_df.nsmallest(<span class="dv">2</span>, <span class="st">"pv_mse"</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>worst_pv <span class="op">=</span> pv_fit_df.nlargest(<span class="dv">2</span>, <span class="st">"pv_mse"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Pv MSE range: </span><span class="sc">{</span>p_min<span class="sc">:.4f}</span><span class="ss"> – </span><span class="sc">{</span>p_max<span class="sc">:.4f}</span><span class="ss">, median </span><span class="sc">{</span>p_med<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best Pv fits:"</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(best_pv.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Worst Pv fits:"</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(worst_pv.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.3 Merge fit stats into summary_df and save</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>summary_fit <span class="op">=</span> (</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    summary_df</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    .merge(haz_fit_df, on<span class="op">=</span><span class="st">"uid"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    .merge(pv_fit_df,  on<span class="op">=</span><span class="st">"uid"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>summary_fit.to_csv(<span class="st">"data/user_trip_summary_with_fit.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hazard MSE range: 0.0002 – 0.0138, median 0.0013
+Best hazard fits:
+uid  hazard_mse
+003    0.000184
+030    0.000259
+Worst hazard fits:
+uid  hazard_mse
+112    0.013826
+104    0.009189
+
+Pv MSE range: 0.0008 – 0.0091, median 0.0022
+Best Pv fits:
+uid   pv_mse
+030 0.000807
+084 0.001045
+Worst Pv fits:
+uid   pv_mse
+112 0.009124
+041 0.003860</code></pre>
+</div>
+</div>
+<section id="a-hazard-fit-best-and-worst-users" class="level3">
+<h3 class="anchored" data-anchor-id="a-hazard-fit-best-and-worst-users">5.a Hazard fit: best and worst users</h3>
+<p>Figure 5a compares the empirical trip-level going-home hazard with the fitted logit curves for the two best-fitting users (003, 030) and the two worst-fitting users (112, 104). For Users 003 and 030, the points lie almost exactly on the fitted line across stop orders 1–12, and the MSE is essentially zero, which means the simple logit trend in k captures their going-home probabilities very well. For Users 112 and 104 the overall MSE is still small (≈0.014 and ≈0.009), but the last few stops show visible deviations: with few long trips, individual “go home” events at high k create noisy empirical hazards that the smooth logit curve only approximates.</p>
+<div id="8b49f333" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.a Hazard fit: 2×2 panels for best and worst users</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>haz_best  <span class="op">=</span> [<span class="st">"003"</span>, <span class="st">"030"</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>haz_worst <span class="op">=</span> [<span class="st">"112"</span>, <span class="st">"104"</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>haz_order <span class="op">=</span> haz_best <span class="op">+</span> haz_worst   <span class="co"># top row: best, bottom row: worst</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>haz_mse_dict <span class="op">=</span> haz_fit_df.set_index(<span class="st">"uid"</span>)[<span class="st">"hazard_mse"</span>].to_dict()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, uid <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), haz_order):</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    hc  <span class="op">=</span> hazard_curves[uid]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    k   <span class="op">=</span> hc[<span class="st">"k_axis"</span>]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    emp <span class="op">=</span> hc[<span class="st">"haz_emp"</span>]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    hat <span class="op">=</span> hc[<span class="st">"haz_hat"</span>]</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    mask_emp <span class="op">=</span> <span class="op">~</span>np.isnan(emp)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    ax.scatter(k[mask_emp], emp[mask_emp], s<span class="op">=</span><span class="dv">25</span>, label<span class="op">=</span><span class="st">"Empirical hazard"</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    ax.plot(k, hat, label<span class="op">=</span><span class="st">"Fitted hazard"</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"User </span><span class="sc">{</span>uid<span class="sc">}</span><span class="ss"> (MSE=</span><span class="sc">{</span>haz_mse_dict[uid]<span class="sc">:.3f}</span><span class="ss">)"</span>)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="dv">1</span>, MAXK)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].legend()</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Trip-level going-home hazard — best and worst fits"</span>, y<span class="op">=</span><span class="fl">0.98</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.04</span>, <span class="st">"Stop order k in trip"</span>, ha<span class="op">=</span><span class="st">"center"</span>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.04</span>, <span class="fl">0.5</span>, <span class="st">"P(go home | trip has reached k)"</span>, va<span class="op">=</span><span class="st">"center"</span>, rotation<span class="op">=</span><span class="st">"vertical"</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="fl">0.06</span>, <span class="fl">0.06</span>, <span class="dv">1</span>, <span class="fl">0.94</span>])</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="verification_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="b-pv-fit-best-and-worst-users" class="level3">
+<h3 class="anchored" data-anchor-id="b-pv-fit-best-and-worst-users">5.b Pv fit: best and worst users</h3>
+<p>Figure 5b repeats the same exercise for within-trip exploration. For Users 030 and 084 (best fits), the fitted Pv probability is almost indistinguishable from the empirical Pv share for k up to 10, and the MSE stays around 0.001, indicating that a linear logit trend in stop order is an adequate summary of how exploration evolves within their trips. For Users 112 and 041 (worst fits), the fitted line still gets the general level and slope roughly right, but the empirical points at higher k fluctuate more strongly (especially for 112), reflecting sparse data for long trips rather than a systematic failure of the model.</p>
+<div id="7e21a5d7" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.b Pv fit: 2×2 panels for best and worst users</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>pv_best  <span class="op">=</span> [<span class="st">"030"</span>, <span class="st">"084"</span>]</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pv_worst <span class="op">=</span> [<span class="st">"112"</span>, <span class="st">"041"</span>]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>pv_order <span class="op">=</span> pv_best <span class="op">+</span> pv_worst</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>pv_mse_dict <span class="op">=</span> pv_fit_df.set_index(<span class="st">"uid"</span>)[<span class="st">"pv_mse"</span>].to_dict()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, uid <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), pv_order):</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    curve <span class="op">=</span> pv_curves[uid]</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    k     <span class="op">=</span> curve[<span class="st">"k_axis"</span>]</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    emp   <span class="op">=</span> curve[<span class="st">"pv_emp"</span>]</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    hat   <span class="op">=</span> curve[<span class="st">"pv_hat"</span>]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    n_k   <span class="op">=</span> curve[<span class="st">"pv_df"</span>][<span class="st">"n"</span>].to_numpy()</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    mask_emp <span class="op">=</span> <span class="op">~</span>np.isnan(emp)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    mask_fit <span class="op">=</span> (n_k <span class="op">&gt;=</span> MIN_N_PV)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    ax.scatter(k[mask_emp], emp[mask_emp], s<span class="op">=</span><span class="dv">25</span>, label<span class="op">=</span><span class="st">"Empirical Pv share"</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    ax.plot(k[mask_fit], hat[mask_fit], label<span class="op">=</span><span class="st">"Fitted Pv probability"</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"User </span><span class="sc">{</span>uid<span class="sc">}</span><span class="ss"> (MSE=</span><span class="sc">{</span>pv_mse_dict[uid]<span class="sc">:.3f}</span><span class="ss">)"</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="dv">1</span>, MAXK_PV)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].legend()</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Within-trip Pv probability — best and worst fits"</span>, y<span class="op">=</span><span class="fl">0.98</span>)</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.5</span>, <span class="fl">0.04</span>, <span class="st">"Stop order k in trip (non-home)"</span>, ha<span class="op">=</span><span class="st">"center"</span>)</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>fig.text(<span class="fl">0.04</span>, <span class="fl">0.5</span>, <span class="st">"P(stop is Pv)"</span>, va<span class="op">=</span><span class="st">"center"</span>, rotation<span class="op">=</span><span class="st">"vertical"</span>)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="fl">0.06</span>, <span class="fl">0.06</span>, <span class="dv">1</span>, <span class="fl">0.94</span>])</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="verification_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="user-typology-in-multivariate-trip-space" class="level3">
+<h3 class="anchored" data-anchor-id="user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</h3>
+<p>For each of the 18 long-coverage users I build a 9-dimensional summary of mobility (trip frequency and length, going-home hazards, and exploration measures). After standardising these features, a k-means with k = 3 yields three user types.</p>
+<ul>
+<li><p><strong>Cluster 0 – multi-stop revisitors</strong><br>
+Long trips (around 7 non-home stops), low and fairly flat going-home hazard, and the lowest exploration rate (about 17% of stops are Pv, odds ratio close to 1). Users mainly chain together several familiar places.</p></li>
+<li><p><strong>Cluster 1 – errand-homebodies</strong><br>
+Shorter trips (about 4–5 stops), the highest first-stop going-home hazard, and moderately high exploration (Pv share around 24%, odds ratio &gt; 1). Many trips look like short errands that quickly return home.</p></li>
+<li><p><strong>Cluster 2 – exploratory roamers</strong><br>
+Fewer and shorter trips (about 3 stops), very low later-stop hazards and the steepest decline in hazard, combined with strong within-trip exploration. Once these users stay out beyond the first stops, they rarely go home and are increasingly likely to visit new places.</p></li>
+</ul>
+<p>To visualise how these types are separated in the multivariate feature space, I project the nine mobility indicators onto their first three principal components (PC1–PC3), which together explain most of the cross-user variation. The loading structure of the PCA shows that <strong>PC1</strong> mainly contrasts long, multi-stop, routinised mobility with short, more exploratory errand-like trips (high loadings for mean/median stops and negative loadings for the first-stop hazard and Pv measures). <strong>PC2</strong> is dominated by the total number of trips and days with non-home activity and therefore captures the overall <strong>frequency and intensity of going out</strong>. <strong>PC3</strong> is driven by the later-stop hazard parameters and reflects differences in <strong>late-trip behaviour</strong>, distinguishing users whose return-home probability rises quickly at higher stop orders from those who continue to stay out and explore.</p>
+<p>The 3D scatter plot displays each user in this (PC1, PC2, PC3) space, coloured by k-means cluster. Cluster 0 tends to occupy the region with high PC1 (multi-stop, revisiting trips) and intermediate PC2 (moderate going-out frequency). Cluster 1 is concentrated at higher PC2 and somewhat lower PC1, corresponding to <strong>frequent but relatively short, errand-like trips</strong> with a strong tendency to return home early. Cluster 2 lies towards lower PC2 and lower PC3, representing <strong>less frequent but more exploratory outings</strong> with persistently low late-trip hazards. In this principal-component space the three clusters form well-separated groups, indicating that the typology captures genuinely distinct patterns of everyday mobility.</p>
+<div id="fc86fa99" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>feat_cols <span class="op">=</span> [</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mean_stops_per_trip"</span>,     </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"median_stops_per_trip"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hazard_h1"</span>,              </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hazard_h2_const"</span>,        </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hazard_beta_k"</span>,          </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"overall_pv_share"</span>,       </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pv_odds_ratio_per_stop"</span>,  </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_trips"</span>,                </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_days_nonhome"</span>,        </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> summary_fit[feat_cols].dropna()</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>summary_fit[<span class="st">"cluster3"</span>] <span class="op">=</span> kmeans.fit_predict(X_scaled)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>PCs <span class="op">=</span> pca.fit_transform(X_scaled)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>summary_fit[[<span class="st">"PC1"</span>, <span class="st">"PC2"</span>, <span class="st">"PC3"</span>]] <span class="op">=</span> PCs</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>loadings <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    pca.components_.T,</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>feat_cols,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">"PC1"</span>, <span class="st">"PC2"</span>, <span class="st">"PC3"</span>]</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>display(loadings.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>c:\Users\Jingqi\anaconda3\envs\geospatial\Lib\site-packages\sklearn\cluster\_kmeans.py:1419: UserWarning: KMeans is known to have a memory leak on Windows with MKL, when there are less chunks than available threads. You can avoid it by setting the environment variable OMP_NUM_THREADS=1.
+  warnings.warn(</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">PC1</th>
+<th data-quarto-table-cell-role="th">PC2</th>
+<th data-quarto-table-cell-role="th">PC3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">mean_stops_per_trip</th>
+<td>0.46</td>
+<td>-0.16</td>
+<td>0.06</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">median_stops_per_trip</th>
+<td>0.43</td>
+<td>-0.29</td>
+<td>0.14</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hazard_h1</th>
+<td>-0.36</td>
+<td>0.33</td>
+<td>0.08</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hazard_h2_const</th>
+<td>-0.29</td>
+<td>0.14</td>
+<td>0.62</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hazard_beta_k</th>
+<td>0.25</td>
+<td>-0.01</td>
+<td>0.71</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">overall_pv_share</th>
+<td>-0.31</td>
+<td>-0.35</td>
+<td>0.25</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">pv_odds_ratio_per_stop</th>
+<td>-0.34</td>
+<td>-0.07</td>
+<td>-0.09</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">n_trips</th>
+<td>0.12</td>
+<td>0.66</td>
+<td>0.07</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">n_days_nonhome</th>
+<td>0.32</td>
+<td>0.45</td>
+<td>-0.05</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="b7064a9f" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">6</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">"3d"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> {<span class="dv">0</span>: <span class="st">"tab:orange"</span>, <span class="dv">1</span>: <span class="st">"tab:blue"</span>, <span class="dv">2</span>: <span class="st">"tab:green"</span>}</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> <span class="bu">sorted</span>(summary_fit[<span class="st">"cluster3"</span>].unique()):</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    sub <span class="op">=</span> summary_fit[summary_fit[<span class="st">"cluster3"</span>] <span class="op">==</span> c]</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    ax.scatter(</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        sub[<span class="st">"PC1"</span>], sub[<span class="st">"PC2"</span>], sub[<span class="st">"PC3"</span>],</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        c<span class="op">=</span>colors[c], label<span class="op">=</span><span class="ss">f"Cluster </span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">"</span>, s<span class="op">=</span><span class="dv">40</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> sub.iterrows():</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        ax.text(</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>            row[<span class="st">"PC1"</span>], row[<span class="st">"PC2"</span>], row[<span class="st">"PC3"</span>],</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>            row[<span class="st">"uid"</span>],</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="ss">f"PC1 (</span><span class="sc">{</span>pca<span class="sc">.</span>explained_variance_ratio_[<span class="dv">0</span>]<span class="sc">:.0%}</span><span class="ss">)"</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="ss">f"PC2 (</span><span class="sc">{</span>pca<span class="sc">.</span>explained_variance_ratio_[<span class="dv">1</span>]<span class="sc">:.0%}</span><span class="ss">)"</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel(<span class="ss">f"PC3 (</span><span class="sc">{</span>pca<span class="sc">.</span>explained_variance_ratio_[<span class="dv">2</span>]<span class="sc">:.0%}</span><span class="ss">)"</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="verification_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Geolife Daily Mobility</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,30 @@
+---
+title: "Geolife Daily Mobility"
+---
+
+Welcome!
+
+This mini site presents an exploratory case study of daily mobility using
+the Geolife GPS trajectories. The analysis is organised into three main
+notebooks plus a short synthesis:
+
+- **Notebook 1 – Data cleaning**  
+  From raw Geolife trajectories to a visit-level table: loading `.plt`
+  files, filtering to Beijing, projecting to a 500 m grid, and detecting
+  home / stay locations.
+
+- **Notebook 2 – Trips by action**  
+  Builds home–home trips from visit events, then studies within-trip
+  behaviour, including the discrete-time hazard of going home and the
+  probability of visiting new places (Pv).
+
+- **Notebook 3 – Cross-user verification**  
+  Extends the trip-level analysis to multiple long-coverage users, compares
+  going-home hazards and exploration profiles, and clusters users into
+  behavioural types.
+
+- **Findings and conclusion**  
+  Summarises the main empirical patterns and discusses which aspects of
+  daily mobility appear systematic at the population level and which are
+  strongly user-specific.
+
