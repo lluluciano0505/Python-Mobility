@@ -199,7 +199,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#from-daily-visits-to-homehome-trips" id="toc-from-daily-visits-to-homehome-trips" class="nav-link active" data-scroll-target="#from-daily-visits-to-homehome-trips">2. From daily visits to home–home trips</a></li>
+  <li><a href="#import-the-datasets-from-000" id="toc-import-the-datasets-from-000" class="nav-link active" data-scroll-target="#import-the-datasets-from-000">1. Import the Datasets from 000</a></li>
+  <li><a href="#from-daily-visits-to-homehome-trips" id="toc-from-daily-visits-to-homehome-trips" class="nav-link" data-scroll-target="#from-daily-visits-to-homehome-trips">2. From daily visits to home–home trips</a></li>
   <li><a href="#trip-level-descriptive-statistics" id="toc-trip-level-descriptive-statistics" class="nav-link" data-scroll-target="#trip-level-descriptive-statistics">3. Trip-level descriptive statistics</a></li>
   <li><a href="#next-step-behaviour-within-trips" id="toc-next-step-behaviour-within-trips" class="nav-link" data-scroll-target="#next-step-behaviour-within-trips">4. Next-step behaviour within trips</a>
   <ul class="collapse">
@@ -233,6 +234,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="import-the-datasets-from-000" class="level2">
+<h2 class="anchored" data-anchor-id="import-the-datasets-from-000">1. Import the Datasets from 000</h2>
 <p>In this notebook the analysis starts from the visit-level table constructed in Notebook 1. The file <code>visit_level_table_000.csv</code> is loaded from the <code>data</code> folder and the basic Python environment (NumPy, pandas, Matplotlib) is set up. Date and time fields are combined into full start and end timestamps for each visit (<code>first_dt</code> and <code>last_dt</code>), and the user identifier is taken from the <code>person</code> column for use in plots. The table is then sorted by person, date, and start time to produce a clean, time-ordered record of visit events rather than daily aggregates; subsequent sections build on this event sequence to identify complete home–home trips (individual “outings”).</p>
 <div id="625d83d0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -430,6 +433,7 @@ USER_ID used in plots: 0
 Rows in visit_table after sorting: 1841</code></pre>
 </div>
 </div>
+</section>
 <section id="from-daily-visits-to-homehome-trips" class="level2">
 <h2 class="anchored" data-anchor-id="from-daily-visits-to-homehome-trips">2. From daily visits to home–home trips</h2>
 <p>The next stage groups individual visit events into complete home-to-home trips. For each person and each day, the visit records are ordered by their start times. Any record marked is_home == 1 is treated as being at HOME. A new trip begins the moment the user leaves HOME for a non-home location, continues through any consecutive non-home stops, and ends as soon as the user returns home. If the user never comes back home later that day, the trip is considered to end at the final non-home visit. This approach turns a simple list of places into meaningful “outings” that begin at home and eventually return there.</p>

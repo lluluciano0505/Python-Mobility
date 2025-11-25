@@ -8,6 +8,8 @@ This mini site presents an exploratory case study of daily mobility using
 the Geolife GPS trajectories. The analysis is organised into three main
 notebooks plus a short synthesis:
 
+-- **# Literature Review & Project Overview**  
+
 - **Notebook 1 – Data cleaning**  
   From raw Geolife trajectories to a visit-level table: loading `.plt`
   files, filtering to Beijing, projecting to a 500 m grid, and detecting
