@@ -205,7 +205,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#calculate-the-non-home-stops" id="toc-calculate-the-non-home-stops" class="nav-link" data-scroll-target="#calculate-the-non-home-stops">4.1 Calculate the non home stops</a></li>
   <li><a href="#discrete-time-hazard-of-going-home" id="toc-discrete-time-hazard-of-going-home" class="nav-link" data-scroll-target="#discrete-time-hazard-of-going-home">4.2 Discrete-time hazard of going home</a></li>
-  <li><a href="#within-trip-exploration-when-do-new-places-pv-appear" id="toc-within-trip-exploration-when-do-new-places-pv-appear" class="nav-link" data-scroll-target="#within-trip-exploration-when-do-new-places-pv-appear">4.3 Within-trip exploration: when do new places (Pv) appear?</a></li>
+  <li><a href="#within-trip-exploration-when-do-new-places-pv-appear" id="toc-within-trip-exploration-when-do-new-places-pv-appear" class="nav-link" data-scroll-target="#within-trip-exploration-when-do-new-places-pv-appear">4.3 Within-Trip Exploration: When Do New Places (Pv) Appear?</a></li>
   <li><a href="#behavioural-summary" id="toc-behavioural-summary" class="nav-link" data-scroll-target="#behavioural-summary">4.3 Behavioural summary</a></li>
   </ul></li>
   </ul>
@@ -432,8 +432,8 @@ Rows in visit_table after sorting: 1841</code></pre>
 </div>
 <section id="from-daily-visits-to-homehome-trips" class="level2">
 <h2 class="anchored" data-anchor-id="from-daily-visits-to-homehome-trips">2. From daily visits to home–home trips</h2>
-<p>The next step is to group the visit-level events into home–home trip episodes. Within each <code>(person, date)</code> sequence (ordered by <code>first_dt</code>), visits with <code>is_home == 1</code> are treated as being at HOME. A new trip starts when the next visit is to a non-home place, continues through consecutive non-home visits, and ends when HOME is observed again; if there is no return to HOME, the trip is taken to end at the last non-home visit of the day.</p>
-<p>Two indices are attached to every visit. The <code>trip_id</code> variable identifies which trip on that day a visit belongs to (<code>1, 2, …</code>), with <code>0</code> reserved for visits that are not part of any trip. The <code>action_order_in_trip</code> variable records the position of the visit within the trip: it takes values <code>1, 2, 3, …</code> for non-home visits after leaving HOME and <code>0</code> for HOME visits at the start or end of a trip.</p>
+<p>The next stage groups individual visit events into complete home-to-home trips. For each person and each day, the visit records are ordered by their start times. Any record marked is_home == 1 is treated as being at HOME. A new trip begins the moment the user leaves HOME for a non-home location, continues through any consecutive non-home stops, and ends as soon as the user returns home. If the user never comes back home later that day, the trip is considered to end at the final non-home visit. This approach turns a simple list of places into meaningful “outings” that begin at home and eventually return there.</p>
+<p>To make later analysis easier, each visit receives two indexing variables. The first, trip_id, indicates which trip of the day the visit belongs to, with 0 reserved for visits that do not fall inside any trip. The second, action_order_in_trip, captures the position of each stop within its trip. Non-home stops are numbered sequentially as 1, 2, 3, and so on, while HOME visits at the beginning or end of a trip are assigned 0. These indices create a clean structure for studying how behaviour unfolds over the course of each outing.</p>
 <div id="f996c055" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_trip_cols(df_day):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -649,15 +649,7 @@ Rows in visit_table after sorting: 1841</code></pre>
 </section>
 <section id="trip-level-descriptive-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="trip-level-descriptive-statistics">3. Trip-level descriptive statistics</h2>
-<p>The visit-level data are then collapsed to the trip level. For each <code>(person, date, trip_id)</code> combination, a single row is constructed with:</p>
-<ul>
-<li><code>n_stops</code>: number of non-home stops in the trip<br>
-</li>
-<li><code>trip_start</code>, <code>trip_end</code>: start and end timestamps of the trip<br>
-</li>
-<li><code>max_dist_home</code>, <code>mean_dist_home</code>: maximum and average distance from HOME reached during the trip</li>
-</ul>
-<p>From this trip-level table, simple descriptive summaries and histograms of <code>n_stops</code> and <code>max_dist_home</code> describe how long typical outings last and how far the user tends to travel away from home.</p>
+<p>The visit-level data are next collapsed to the trip level. For each combination of person, date, and trip_id, a single row is created that records the number of non-home stops (n_stops), the start and end times of the trip (trip_start, trip_end), and the maximum and average distance from HOME reached during that outing (max_dist_home, mean_dist_home). Simple summaries and histograms based on this trip-level table, especially for n_stops and max_dist_home, show how long typical outings last and how far the user usually travels away from home.</p>
 <div id="b98bfe09" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only visits that belong to a trip</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>vt_trip <span class="op">=</span> visit_table[visit_table[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>].copy()</span>
@@ -802,22 +794,16 @@ Rows in visit_table after sorting: 1841</code></pre>
 </div>
 </div>
 </div>
-<p>For user <code>000</code> there are 429 identified home–home trips. The histogram of <code>n_stops</code> shows that most trips are very simple: the median is one non-home stop and the vast majority of outings contain only one or two stops, with a long but thin right tail of unusually complex trips (up to nearly 100 recorded stops). The distribution of <code>max_dist_home</code> tells a similar story on the spatial side. Most trips remain within a few kilometres of HOME, but there are occasional long-distance excursions that reach tens of kilometres away. Together, these summaries highlight a pattern of frequent short errands around home punctuated by rare, much longer journeys.</p>
+<p>For user 000 there are 429 identified home–home trips. The histogram of n_stops shows that most trips are very simple: the median is one non-home stop and the vast majority of outings contain only one or two stops, with a long but thin right tail of unusually complex trips (up to nearly 100 recorded stops). The distribution of max_dist_home tells a similar story on the spatial side. Most trips remain within a few kilometres of HOME, but there are occasional long-distance excursions that reach tens of kilometres away. Together, these summaries highlight a pattern of frequent short errands around home punctuated by rare, much longer journeys.</p>
 </section>
 <section id="next-step-behaviour-within-trips" class="level2">
 <h2 class="anchored" data-anchor-id="next-step-behaviour-within-trips">4. Next-step behaviour within trips</h2>
 <section id="calculate-the-non-home-stops" class="level3">
 <h3 class="anchored" data-anchor-id="calculate-the-non-home-stops">4.1 Calculate the non home stops</h3>
-<p>The focus now shifts from whole trips to individual <strong>non-home stops</strong> inside each trip. For every such stop, the main question is: <em>what happens next?</em></p>
-<p>Within trip episodes, three next-step outcomes are distinguished:</p>
-<ul>
-<li><code>home</code>: the next recorded visit is to HOME<br>
-</li>
-<li><code>explore</code>: the next visit is to another non-home place (SW, Pv, or Pn)<br>
-</li>
-<li><code>end</code>: the trip ends in the data with no further visit recorded</li>
-</ul>
-<p>For the last non-home stop of each trip, an <code>end</code> outcome is treated as effectively going home if the stop is either <strong>late at night</strong> (<code>hour ≥ 23</code>) or already <strong>very close to HOME</strong> (within 750 m). This reclassification avoids counting end-of-day records as if the person were still out, and makes the outcome categories more comparable across stops. The resulting outcome labels are then tabulated by stop order (k) within the trip to describe how the composition of “go home”, “keep exploring”, and “end” changes as a trip unfolds.</p>
+<p>The analysis now shifts from entire home–home trips to the individual non-home stops that occur within each trip. At each such stop, the key question becomes: what happens next? Rather than focusing on the whole sequence, we examine the immediate next step following each non-home visit.</p>
+<p>Within each trip episode, three possible next-step outcomes are defined. The first is home, meaning that the next recorded stop is a return to HOME. The second is explore, in which the individual continues the trip by visiting another non-home location—this may be a SW, Pv, or Pn place. The third is end, indicating that the trip terminates in the data and no further stop is observed.</p>
+<p>A special rule is applied to the last non-home stop of each trip. When this final stop is labeled end, it often reflects the end of the day rather than a genuine termination of activity away from home. To avoid treating these end-of-day records as if the person remained out indefinitely, we reclassify an end outcome as effectively going home if the stop occurs late at night (hour ≥ 23) or is very close to HOME (within 750 m). This adjustment ensures that outcome categories are more comparable across different stops and reduces artificial inflation of “end” events.</p>
+<p>After this reclassification, the resulting next-step outcomes are tabulated by the stop order 𝑘 k within each trip. This tabulation describes how the relative frequencies of “go home,” “keep exploring,” and “end” evolve as a trip progresses, providing a clearer picture of within-trip behavioral dynamics.</p>
 <div id="c7f85136" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>MAXK <span class="op">=</span> <span class="dv">30</span>        <span class="co"># only consider the first 30 stops within each trip</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>NIGHT_HOUR <span class="op">=</span> <span class="dv">23</span>  <span class="co"># &gt;= 23:00 considered "late"</span></span>
@@ -986,18 +972,16 @@ Outcome composition (first 10 k):</code></pre>
 </div>
 </div>
 </div>
-<p>For user <code>000</code> there are 1,306 non-home stops inside trips, of which 883 are followed by another non-home place (<code>explore</code>), 403 by a return home, and only 20 end the trip without a further visit after the late/near-home reclassification. The composition by stop order (k) shows a clear pattern: at the <strong>first</strong> stop, going home is very common (around two thirds of trips return home immediately and only one third continue to explore). Once a trip survives this first stop, however, exploration dominates: for (k = 2) and beyond, 65–90% of stops are followed by another non-home place and the hazard of going home falls to around 10–30%. In other words, many trips are short one-stop errands, but conditional on not going straight home, the user tends to string together several exploratory stops before ending the outing.</p>
+<p>For user <code>000</code> there are 1,306 non-home stops inside trips, of which 883 are followed by another non-home place (explore), 403 by a return home, and only 20 end the trip without a further visit after the late/near-home reclassification. The composition by stop order (k) shows a clear pattern: at the <strong>first</strong> stop, going home is very common (around two thirds of trips return home immediately and only one third continue to explore). Once a trip survives this first stop, however, exploration dominates: for (k = 2) and beyond, 65–90% of stops are followed by another non-home place and the hazard of going home falls to around 10–30%. In other words, many trips are short one-stop errands, but conditional on not going straight home, the user tends to string together several exploratory stops before ending the outing.</p>
 </section>
 <section id="discrete-time-hazard-of-going-home" class="level3">
 <h3 class="anchored" data-anchor-id="discrete-time-hazard-of-going-home">4.2 Discrete-time hazard of going home</h3>
-<p>Non-home stops inside a trip are treated as discrete time steps: first stop after leaving HOME, second stop, third stop, and so on. For each step number (k), the data across all trips are used to compute:</p>
-<ul>
-<li>the number of trips that have reached at least the (k)-th non-home stop; and<br>
-</li>
-<li>among those trips, the number that go straight back HOME immediately after stop (k).</li>
-</ul>
-<p>Their ratio defines the <strong>hazard of going home at step (k)</strong>,<code>h_k = P(go home next | trip has reached stop k)</code>, which answers: “given that this trip has already made it to stop (k), what is the chance that the next move is to go home rather than continue exploring?”.</p>
-<p>By multiplying ((1 - h_k)) over successive steps, the analysis also obtains the <strong>survival probability</strong> (S_k), the probability that a trip is still ongoing (the user is still out) after (k) non-home stops. The first panel plots the empirical hazards (h_k) together with a simple logit trend in (k) fitted for (k ), while the second panel compares the empirical survival curve (S_k) with the corresponding model-based curve. Together, these plots show how the “go home now” probability and the “still out” probability evolve as trips become longer.</p>
+<p>Within each trip, non-home stops are treated as discrete time steps: the first stop after leaving HOME, the second stop, the third stop, and so on. At each step, the analysis focuses on what happens next conditional on the trip having reached that point. For every step number (k), the data across all trips are pooled to compute two quantities: the total number of trips that have reached at least the (k)-th non-home stop, and, among those, the number of trips that return directly to HOME immediately after stop (k).</p>
+<p>The ratio of these two counts defines the hazard of going home at step (k),</p>
+<p><code>h_k = P(go home next | trip has reached stop k)</code>,</p>
+<p>which answers: <em>given that this trip has already made it to stop (k), what is the probability that the next move is to go home rather than continue exploring?</em> This discrete-time hazard summarizes how the immediate “go home now” tendency changes as the trip accumulates more non-home stops.</p>
+<p>Based on the hazards, the analysis also derives the <strong>survival probability</strong> (S_k), defined as the probability that a trip is still ongoing after (k) non-home stops. In discrete time, this is obtained by multiplying (1 - h_k)&nbsp;across successive steps, as the chance that the individual has not yet decided to return home. Intuitively, (S_k) represents the probability that the person is “still out” after making (k) stops away from home.</p>
+<p>The first panel visualizes the empirical hazards (h_k) together with a simple logit trend in (k) fitted for (k ), showing how the propensity to go home varies with stop order. The second panel compares the empirical survival curve (S_k) with the corresponding model-based survival curve implied by the fitted hazard specification. Together, these plots illustrate how both the “go home now” probability and the “still out” probability evolve as trips become longer.</p>
 <div id="ba43393d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Per-trip maximum stop order (within the MAXK truncation)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>pertrip_maxk <span class="op">=</span> (</span>
@@ -1207,15 +1191,10 @@ x1    -0.092337  0.033081 -2.791279  5.250023e-03 -0.157174 -0.02750</code></pre
 </div>
 </section>
 <section id="within-trip-exploration-when-do-new-places-pv-appear" class="level3">
-<h3 class="anchored" data-anchor-id="within-trip-exploration-when-do-new-places-pv-appear">4.3 Within-trip exploration: when do new places (Pv) appear?</h3>
-<p>The focus now shifts from going-home decisions to <strong>exploration within a trip</strong>. For every non-home stop it is known whether the location is</p>
-<ul>
-<li>a first-time place for this user (Pv), or<br>
-</li>
-<li>a return visit to an already known place (Pn).</li>
-</ul>
-<p>Let (k) denote the stop order within a trip. For each (k) the analysis computes the proportion of non-home stops that are Pv and tracks how this share changes with (k). This yields an empirical curve <code>P(stop is Pv | stop order = k)</code> that describes when new places tend to appear along the sequence of stops.</p>
-<p>For user <code>000</code> the overall share of first-time places among non-home trip stops is about 18%. The Pv rate is relatively low at the first few stops and then increases with stop order, reaching around 30% by the 8th–10th stop. A simple logit regression of the Pv indicator on stop order (restricted to values of (k) with at least 30 observations) provides the smooth trend line in the figure. The estimated odds ratio of about 1.27 per additional stop implies that, within a trip, each extra stop raises the odds of visiting a new place by roughly one quarter.</p>
+<h3 class="anchored" data-anchor-id="within-trip-exploration-when-do-new-places-pv-appear">4.3 Within-Trip Exploration: When Do New Places (Pv) Appear?</h3>
+<p>The analysis now moves from going-home decisions to <strong>exploration within a trip</strong>. For every non-home stop, we know whether the location is a first-time place for the user (Pv) or a return to an already visited place (Pn).</p>
+<p>To study how exploration changes as a trip unfolds, the stops are ordered by their position within the trip. For each stop number (k), the share of stops that are Pv is calculated. This produces an empirical curve showing how often new places appear at different stages of a trip.</p>
+<p>For user <code>000</code>, about 18% of all non-home stops across trips are first-time places. The exploration rate is relatively low in the first few stops but gradually increases as the trip continues, reaching roughly 30% around the 8th to 10th stop. A simple logit regression, applied only to stop numbers with enough observations, provides the smooth trend line shown in the figure. The estimated effect suggests that each additional stop in a trip increases the odds of discovering a new place by around one quarter.</p>
 <div id="cafbcfc2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-home visits inside trips (same base as for hazard)</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>vis_places <span class="op">=</span> visit_table[</span>
@@ -1410,7 +1389,7 @@ Odds ratio for Pv per additional stop (n&gt;=30): 1.267</code></pre>
 <li><p>Within a single trip, there is a large mass of “one-stop errands” that return straight home, producing a very high probability of going home after the first stop. Conditional on surviving this initial stage, the per-stop hazard of returning home declines with stop order: once a trip has been running for a while, the person becomes increasingly “sticky” to staying out.</p></li>
 <li><p>Along the same trip, early stops are mostly revisits to familiar locations, whereas the share of first-time places (Pv) rises steadily with stop order. Exploration is therefore concentrated in the middle and later parts of a trip, once the outing has “warmed up”.</p></li>
 </ul>
-<p>Taken together, these patterns can be summarised as follows: <strong>most days involve short errands close to home; when a longer outing does occur, the person tends to stay out for a while and becomes progressively more likely to explore new places.</strong></p>
+<p>Taken together, these patterns can be summarised as follows: most days involve short errands close to home; when a longer outing does occur, the person tends to stay out for a while and becomes progressively more likely to explore new places.</p>
 
 
 </section>

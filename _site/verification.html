@@ -207,8 +207,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#a-hazard-fit-best-and-worst-users" id="toc-a-hazard-fit-best-and-worst-users" class="nav-link" data-scroll-target="#a-hazard-fit-best-and-worst-users">5.a Hazard fit: best and worst users</a></li>
   <li><a href="#b-pv-fit-best-and-worst-users" id="toc-b-pv-fit-best-and-worst-users" class="nav-link" data-scroll-target="#b-pv-fit-best-and-worst-users">5.b Pv fit: best and worst users</a></li>
-  <li><a href="#user-typology-in-multivariate-trip-space" id="toc-user-typology-in-multivariate-trip-space" class="nav-link" data-scroll-target="#user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</a></li>
   </ul></li>
+  <li><a href="#user-typology-in-multivariate-trip-space" id="toc-user-typology-in-multivariate-trip-space" class="nav-link" data-scroll-target="#user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</a></li>
   </ul>
 </nav>
     </div>
@@ -916,7 +916,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cross-user-trip-level-going-home-hazards" class="level3">
 <h3 class="anchored" data-anchor-id="cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</h3>
-<p>In this step I move from single-user analysis to a pooled view of going-home behaviour across all long-coverage users. Using the visit-level tables with trip structure attached, I reconstruct the discrete-time hazard of going home within a trip for each user separately. For every non-home stop order (k), I identify how many trips are still “at risk” at that stop and how many of them go home immediately afterwards. These counts are used to form the empirical hazard curve and to fit a simple logit model in the stop index, while keeping the first-stop hazard at its empirical value. The resulting fitted hazard curves provide a compact description of how likely each user is to return home as a trip unfolds, conditional on the trip having already reached a given stop.</p>
+<p>In this step I move from single-user analysis to a pooled view of going-home behaviour across all long-coverage users. Using the visit-level tables with trip structure attached, I reconstruct the discrete-time hazard of going home within a trip for each user separately. For every non-home stop order (k), I identify how many trips are still “at risk” at that stop and how many of them go home immediately afterwards. These counts are used to form the empirical hazard curve and to fit a simple logit model in the stop index, while keeping the first-stop hazard at its empirical value.</p>
 <div id="2da8d2b4" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MAXK <span class="op">=</span> <span class="dv">12</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MIN_RISK <span class="op">=</span> <span class="dv">20</span></span>
@@ -1418,19 +1418,14 @@ uid   pv_mse
 </div>
 </div>
 </section>
-<section id="user-typology-in-multivariate-trip-space" class="level3">
-<h3 class="anchored" data-anchor-id="user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</h3>
-<p>For each of the 18 long-coverage users I build a 9-dimensional summary of mobility (trip frequency and length, going-home hazards, and exploration measures). After standardising these features, a k-means with k = 3 yields three user types.</p>
-<ul>
-<li><p><strong>Cluster 0 – multi-stop revisitors</strong><br>
-Long trips (around 7 non-home stops), low and fairly flat going-home hazard, and the lowest exploration rate (about 17% of stops are Pv, odds ratio close to 1). Users mainly chain together several familiar places.</p></li>
-<li><p><strong>Cluster 1 – errand-homebodies</strong><br>
-Shorter trips (about 4–5 stops), the highest first-stop going-home hazard, and moderately high exploration (Pv share around 24%, odds ratio &gt; 1). Many trips look like short errands that quickly return home.</p></li>
-<li><p><strong>Cluster 2 – exploratory roamers</strong><br>
-Fewer and shorter trips (about 3 stops), very low later-stop hazards and the steepest decline in hazard, combined with strong within-trip exploration. Once these users stay out beyond the first stops, they rarely go home and are increasingly likely to visit new places.</p></li>
-</ul>
-<p>To visualise how these types are separated in the multivariate feature space, I project the nine mobility indicators onto their first three principal components (PC1–PC3), which together explain most of the cross-user variation. The loading structure of the PCA shows that <strong>PC1</strong> mainly contrasts long, multi-stop, routinised mobility with short, more exploratory errand-like trips (high loadings for mean/median stops and negative loadings for the first-stop hazard and Pv measures). <strong>PC2</strong> is dominated by the total number of trips and days with non-home activity and therefore captures the overall <strong>frequency and intensity of going out</strong>. <strong>PC3</strong> is driven by the later-stop hazard parameters and reflects differences in <strong>late-trip behaviour</strong>, distinguishing users whose return-home probability rises quickly at higher stop orders from those who continue to stay out and explore.</p>
-<p>The 3D scatter plot displays each user in this (PC1, PC2, PC3) space, coloured by k-means cluster. Cluster 0 tends to occupy the region with high PC1 (multi-stop, revisiting trips) and intermediate PC2 (moderate going-out frequency). Cluster 1 is concentrated at higher PC2 and somewhat lower PC1, corresponding to <strong>frequent but relatively short, errand-like trips</strong> with a strong tendency to return home early. Cluster 2 lies towards lower PC2 and lower PC3, representing <strong>less frequent but more exploratory outings</strong> with persistently low late-trip hazards. In this principal-component space the three clusters form well-separated groups, indicating that the typology captures genuinely distinct patterns of everyday mobility.</p>
+</section>
+<section id="user-typology-in-multivariate-trip-space" class="level2">
+<h2 class="anchored" data-anchor-id="user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</h2>
+<p>For the 18 long-coverage Geolife users, I construct a nine-dimensional mobility profile capturing trip frequency, trip length, going-home behaviour, and within-trip exploration. After standardising these features, a k-means model with k = 3 identifies three distinct user types.</p>
+<p>Cluster 0 – multi-stop revisitors Users take relatively long trips (around seven non-home stops), have consistently low going-home hazards, and show the lowest exploration rate (about 17% Pv). Their mobility is dominated by chains of familiar places.</p>
+<p>Cluster 1 – errand-homebodies Trips are shorter (four to five stops), the probability of going home after the first stop is the highest, and exploration is moderate (Pv around 24%). Many outings resemble short errand trips that end quickly.</p>
+<p>Cluster 2 – exploratory roamers Users make fewer and shorter trips (around three stops) but show strong exploration. Once they remain out beyond the first stops, later-stop hazards stay low and Pv increases, indicating a tendency to continue visiting new places.</p>
+<p>To understand which behavioural dimensions drive these groups, the nine features are projected onto their first three principal components. PC1 contrasts long, routinised multi-stop mobility with shorter and more exploratory patterns. PC2 reflects overall going-out frequency and activity levels. PC3 captures late-trip behaviour, separating users whose return-home probability rises at higher stop orders from those who continue to stay out.</p>
 <div id="fc86fa99" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>feat_cols <span class="op">=</span> [</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mean_stops_per_trip"</span>,     </span>
@@ -1584,9 +1579,11 @@ Fewer and shorter trips (about 3 stops), very low later-stop hazards and the ste
 </div>
 </div>
 </div>
+<p>Cluster 0 (orange) — multi-stop revisitors This group sits mainly on the right side of PC1, indicating long trips with many non-home stops. Their PC2 values are moderate, showing a normal level of going-out frequency. PC3 tends to be low, meaning they rarely return home in the later part of a trip. In short: long, multi-stop routines concentrated around familiar places.</p>
+<p>Cluster 1 (blue) — errand-homebodies These users cluster toward higher PC2, reflecting frequent going-out. Their PC1 values are slightly left or near the centre, consistent with short to medium trips. PC3 is higher than other groups, indicating a strong tendency to return home after the first one or two stops. In short: they go out often, but most outings are short errand-like trips that end quickly.</p>
+<p>Cluster 2 (green) — exploratory roamers This cluster contains user 092, positioned at the low end of all three PCs: low PC1 (short trips), low PC2 (infrequent going-out), and low PC3 (very low late-trip hazard). In short: rare outings, but whenever they go out, they behave highly exploratively rather than following routines.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
