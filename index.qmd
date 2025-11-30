@@ -5,10 +5,11 @@ title: "Geolife Daily Mobility"
 Welcome!
 
 This mini site presents an exploratory case study of daily mobility using
-the Geolife GPS trajectories. The analysis is organised into three main
-notebooks plus a short synthesis:
+the Geolife GPS trajectories. The analysis is organised into five main
+notebooks:
 
-- **Literature Review & Project Overview**  
+- **Notebook 0 - Overview**  
+  What is EPR and structure of the study.
 
 - **Notebook 1 – Data cleaning**  
   From raw Geolife trajectories to a visit-level table: loading `.plt`
