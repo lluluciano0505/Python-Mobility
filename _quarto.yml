@@ -17,13 +17,23 @@ website:
     style: "docked"
     search: true
     collapse-level: 2
+
+    logo: "image/title.png"
+    logo-alt: "Geolife Daily Mobility"
+    logo-href: "index.qmd"
+
+    tools:
+      - icon: github
+        href: "https://github.com/lluluciano0505"
+        aria-label: "GitHub"
+
     contents:
       - href: index.qmd
         text: Welcome
       - section: "Analysis"
         contents:
-          - href: LR.ipynb
-            text: "Overview"
+          - href: "LR.ipynb"
+            text: "Notebook 0 - Overview"
           - href: "Data Cleaning.ipynb"
             text: "Notebook 1 – Data cleaning"
           - href: "by action.ipynb"
