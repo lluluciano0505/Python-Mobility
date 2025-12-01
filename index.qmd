@@ -16,6 +16,7 @@ I’m Jingqi (Luciano) Lu. This site is a notebook-style project using Geolife G
 - Notebook 2: Trip reconstruction and within-trip behaviour (next-step, hazard/survival, Pv trend)  
 - Notebook 3: Cross-user checks (user summaries, hazard/Pv curves, clustering)  
 - Notebook 4: Conclusion (key findings, limitations, next steps)
+- Reference
 
 ## Data and outputs
 

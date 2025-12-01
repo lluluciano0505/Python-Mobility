@@ -42,6 +42,8 @@ website:
             text: "Notebook 3 – Cross-user verification"
           - href: "conclusion.ipynb"
             text: "Notebook 4 - Findings and conclusion"
+          - href: "Reference.ipynb"
+            text: "Reference"
 
 format:
   html:
