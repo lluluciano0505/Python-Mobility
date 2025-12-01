@@ -208,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#per-user-trip-level-summary" id="toc-per-user-trip-level-summary" class="nav-link" data-scroll-target="#per-user-trip-level-summary">2. Per-user trip-level summary</a></li>
   <li><a href="#cross-user-trip-level-going-home-hazards" id="toc-cross-user-trip-level-going-home-hazards" class="nav-link" data-scroll-target="#cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</a></li>
   <li><a href="#cross-user-within-trip-exploration-pv" id="toc-cross-user-within-trip-exploration-pv" class="nav-link" data-scroll-target="#cross-user-within-trip-exploration-pv">4. Cross-user within-trip exploration (Pv)</a></li>
-  <li><a href="#model-fit-for-hazard-and-pv-curves" id="toc-model-fit-for-hazard-and-pv-curves" class="nav-link" data-scroll-target="#model-fit-for-hazard-and-pv-curves">5. Model fit for hazard and Pv curves</a>
+  <li><a href="#model-fit-diagnostics-for-hazard-and-pv-curves" id="toc-model-fit-diagnostics-for-hazard-and-pv-curves" class="nav-link" data-scroll-target="#model-fit-diagnostics-for-hazard-and-pv-curves">5. Model fit diagnostics for hazard and Pv curves</a>
   <ul class="collapse">
   <li><a href="#a-hazard-fit-best-and-worst-users" id="toc-a-hazard-fit-best-and-worst-users" class="nav-link" data-scroll-target="#a-hazard-fit-best-and-worst-users">5.a Hazard fit: best and worst users</a></li>
   <li><a href="#b-pv-fit-best-and-worst-users" id="toc-b-pv-fit-best-and-worst-users" class="nav-link" data-scroll-target="#b-pv-fit-best-and-worst-users">5.b Pv fit: best and worst users</a></li>
@@ -239,13 +239,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="more-geolife-users" class="level3">
-<h3 class="anchored" data-anchor-id="more-geolife-users">1. More Geolife users</h3>
-<p>Notebook 3 moves from single-user analysis to a cross-user perspective on daily mobility. Building on the visit-level tables constructed in the previous notebooks, it aggregates data for a set of long-coverage Geolife users (data/visit_level_table_XXX.csv) and asks how their trip-level “going home” and exploration behaviour compares.</p>
-<p>The workflow has three components.</p>
-<p>First, I define a consistent sample of users with sufficiently long observation windows and, for each of them, reconstruct home–home trips by attaching a trip identifier and within-trip stop order to every visit.</p>
-<p>Second, I summarise each user’s mobility with a compact set of trip-level statistics, including the number of active days, the frequency and length of home–home trips, and simple indicators of how often non-home stops correspond to first-time places (Pv) versus revisits.</p>
-<p>Third, I compare going-home hazards and within-trip exploration patterns across individuals by fitting user-specific discrete-time logit models in the stop order index, which yield a small number of interpretable parameters describing both the overall level and the within-trip dynamics of “going home” and “exploring” for each person.</p>
+<section id="more-geolife-users" class="level2">
+<h2 class="anchored" data-anchor-id="more-geolife-users">1. More Geolife users</h2>
+<p>Notebook 3 moves from a single-user case study to a cross-user view of mobility behaviour. Building on the visit-level tables created earlier (data/visit_level_table_XXX.csv), it pools a set of long-coverage Geolife users and compares their within-trip “going home” and exploration patterns.</p>
+<p>The workflow has three components:</p>
+<ol type="1">
+<li><p><strong>Sample construction and trip reconstruction.</strong> I select users with sufficiently long observation windows. For each user, I re-attach trip structure to the visit-level events by assigning a within-day trip_id and a within-trip stop order (action_order_in_trip) to all visits.</p></li>
+<li><p><strong>Per-user mobility summaries.</strong> I compress each user’s mobility into a small set of trip-level statistics: number of observed days, number of days with at least one non-home stop, total number of home-based trips, and the distribution of non-home stops per trip (mean, median, max). I also compute simple exploration indicators based on whether non-home stops are first-time places (Pv) or revisits (Pn).</p></li>
+<li><p><strong>Cross-user model-based comparison.</strong> To compare users on a common scale, I fit user-specific discrete-time logit models in the stop-order index. These models provide compact, interpretable parameters describing both the overall level and within-trip change of (i) returning HOME and (ii) visiting a new place.</p></li>
+</ol>
 <div id="01183d36" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -366,9 +368,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="per-user-trip-level-summary" class="level3">
-<h3 class="anchored" data-anchor-id="per-user-trip-level-summary">2. Per-user trip-level summary</h3>
-<p>In this step I construct a compact trip-level “fingerprint” for each long-coverage user. Starting from the visit-level tables, I first re-attach home–home trip structure and then summarise overall trip patterns: the number of days with data, the number of days with at least one non-home stop, the total number of trips, and the distribution of non-home stops per trip (mean, median, maximum). On top of this, I estimate a discrete-time going-home model for each user, collapsing the full hazard curve into three parameters: the empirical probability of going home after the first stop, a pooled hazard for stops two and above, and a logit slope describing how the going-home probability changes with stop order. Finally, I fit a within-trip exploration model that records the overall share of first-time places (Pv) among non-home stops and an odds ratio describing how the odds of visiting a new place change with each additional stop in the trip. The resulting <code>summary_df</code> has one row per user and collects these trip, hazard, and exploration statistics for subsequent cross-user comparison.</p>
+<section id="per-user-trip-level-summary" class="level2">
+<h2 class="anchored" data-anchor-id="per-user-trip-level-summary">2. Per-user trip-level summary</h2>
+<p>This section constructs a compact trip-level “fingerprint” for each long-coverage user. Starting from the visit-level tables, I first reconstruct home-based trips and then compute:</p>
+<ul>
+<li><strong>Activity coverage:</strong> total observed days (n_days_total) and days with ≥1 non-home stop (n_days_nonhome).</li>
+<li><strong>Trip volume and complexity:</strong> number of trips (n_trips) and stops per trip (mean/median/max).</li>
+</ul>
+<p>I then summarize within-trip decisions and exploration with two simple user-level models:</p>
+<ul>
+<li><strong>Going-home behaviour (hazard model).</strong> For each user, I estimate:
+<ul>
+<li>hazard_h1: the empirical probability of going HOME immediately after the first non-home stop.</li>
+<li>hazard_h2_const: a pooled baseline hazard for stops k ≥ 2` (a constant level for later stops).</li>
+<li>hazard_beta_k: a logit slope in stop order capturing whether the later-stop hazard increases or decreases with k (estimated using k ≥ 2 and restricting to stop orders with sufficient data).</li>
+</ul></li>
+<li><strong>Within-trip exploration (Pv model).</strong> For each user, I record:
+<ul>
+<li>overall_pv_share: the overall share of first-time places (Pv) among non-home stops within trips.</li>
+<li>pv_odds_ratio_per_stop: an odds ratio from a logit model of Pv on stop order, summarizing how the odds of visiting a new place change with each additional stop (estimated only where each stop order has sufficient observations).</li>
+</ul></li>
+</ul>
+<p>The resulting summary_df contains one row per user and combines trip statistics, going-home parameters, and exploration parameters for cross-user comparisons.</p>
 <div id="c75725f7" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -925,9 +946,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="cross-user-trip-level-going-home-hazards" class="level3">
-<h3 class="anchored" data-anchor-id="cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</h3>
-<p>In this step I move from single-user analysis to a pooled view of going-home behaviour across all long-coverage users. Using the visit-level tables with trip structure attached, I reconstruct the discrete-time hazard of going home within a trip for each user separately. For every non-home stop order (k), I identify how many trips are still “at risk” at that stop and how many of them go home immediately afterwards. These counts are used to form the empirical hazard curve and to fit a simple logit model in the stop index, while keeping the first-stop hazard at its empirical value.</p>
+<section id="cross-user-trip-level-going-home-hazards" class="level2">
+<h2 class="anchored" data-anchor-id="cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</h2>
+<p>Here I reconstruct the discrete-time hazard of going HOME within a trip for each user separately. For each stop order k, I compute:</p>
+<ul>
+<li>how many trips reach at least stop k (the risk set), and</li>
+<li>among those, how many return HOME immediately after stop k.</li>
+</ul>
+<p>These define an empirical hazard curve for each user. I then fit a simple logit trend in k for the later stops (k ≥ 2), while keeping the first-stop hazard fixed at its empirical value. Overlaying the fitted curves across users highlights both:</p>
+<ul>
+<li>level differences (some users are generally more likely to go HOME during trips), and</li>
+<li>shape differences (whether the tendency to go HOME changes as trips accumulate more stops).</li>
+</ul>
+<p>Most users show a high first-stop hazard—consistent with many short, errand-like trips—followed by a lower hazard once the trip continues beyond the initial stop. Apparent upward “tails” at large stop orders often coincide with sparse data for long trips, where a small number of return-home events can cause noisy empirical hazards at high k.</p>
 <div id="2da8d2b4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -1081,11 +1112,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The figure overlays the fitted going-home hazard curves for all selected users. The height of each curve reflects the overall tendency to return home during a trip, whereas its shape shows how this tendency evolves with the number of non-home stops already made. Most users exhibit a very high hazard at the first stop, corresponding to short “one-stop errand” trips, followed by a much lower and relatively stable hazard once the trip has continued beyond the initial stops. In other words, after a trip has survived the early stage, additional stops add only a modest incremental chance of going home. A few users display slightly upward-sloping tails at larger stop orders; these patterns are typically associated with sparse data for very long trips, where a small number of observed returns can produce an apparently rising hazard in the far tail rather than indicating a genuinely different behavioural regime.</p>
 </section>
 <section id="cross-user-within-trip-exploration-pv" class="level2">
 <h2 class="anchored" data-anchor-id="cross-user-within-trip-exploration-pv">4. Cross-user within-trip exploration (Pv)</h2>
-<p>In this step I summarise within-trip exploration behaviour across users using the Pv logit model. For each user, I first restrict attention to non-home stops within home–home trips and count, for each stop order (k ), how many of these stops are first-time places (Pv) versus revisits (Pn). Using these counts, I estimate a user-specific logit model where the stop order in the trip enters as a linear predictor (after recentring), and use the fitted model to obtain a smooth Pv probability curve over (k). The resulting fitted curves are then overlaid across users, so that differences in both the baseline exploration rate and the slope with respect to stop order can be inspected on a common scale.</p>
+<p>This section summarizes exploration behaviour across users using the Pv logit model. For each user, I restrict to non-home stops within trips and, by stop order k, count how many stops are first-time places (Pv) versus revisits (Pn). I fit a user-specific logit model where stop order enters linearly (after recentring), producing a smooth fitted curve for the probability that a stop is Pv.</p>
+<p>I overlay these fitted curves across users (truncated to the first ten non-home stops, and only shown where each stop order has enough observations). Vertical differences reflect baseline exploratory tendency, while curve slope reflects how exploration changes as a trip progresses. Many users show gently increasing exploration with stop order, while some have near-flat curves consistent with a roughly constant exploration rate.</p>
 <div id="4d20bca7" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -1226,11 +1257,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The panel shows the fitted within-trip Pv probability curves for all long-coverage users, truncated at the first ten non-home stops and only displayed where each stop order has at least ten observations. Vertical differences between curves reflect how exploratory a user is on average, while the slope of each curve captures how exploration changes along the sequence of stops within a trip. Many users exhibit a gently upward-sloping pattern, indicating that the probability of visiting a first-time place tends to rise as the trip proceeds, whereas a few users have nearly flat curves, consistent with a roughly constant exploration rate across stops.</p>
 </section>
-<section id="model-fit-for-hazard-and-pv-curves" class="level2">
-<h2 class="anchored" data-anchor-id="model-fit-for-hazard-and-pv-curves">5. Model fit for hazard and Pv curves</h2>
-<p>To assess how well the simple logit specifications reproduce the empirical patterns, I construct a user-level goodness-of-fit measure for both models. For each user and each stop order within the range used in the analysis, I compare the empirical probabilities with the corresponding fitted values and compute a mean squared error (MSE) over the available stop orders. For the going-home hazard, the MSE is based on all non-missing hazard points, while for the Pv model it is restricted to stop orders with at least <code>MIN_N_PV</code> observations. The resulting MSEs are then merged back into the user summary table, providing a compact diagnostic of how well the fitted curves approximate the empirical profiles for each individual.</p>
+<section id="model-fit-diagnostics-for-hazard-and-pv-curves" class="level2">
+<h2 class="anchored" data-anchor-id="model-fit-diagnostics-for-hazard-and-pv-curves">5. Model fit diagnostics for hazard and Pv curves</h2>
+<p>To evaluate how well the simple logit specifications approximate the empirical profiles, I compute a per-user mean squared error (MSE) between empirical probabilities and fitted values:</p>
+<ul>
+<li>For going-home hazards, MSE is computed over all stop orders with non-missing hazards.</li>
+<li>For Pv exploration, MSE is computed only over stop orders meeting the minimum sample-size threshold used for fitting.</li>
+</ul>
+<p>These MSE values are merged back into the user summary table to provide a compact goodness-of-fit diagnostic. In general, the largest deviations occur at high stop orders where long trips are rare and empirical estimates are noisy.</p>
 <div id="d9d32d9e" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -1450,11 +1485,12 @@ uid   pv_mse
 </section>
 <section id="user-typology-in-multivariate-trip-space" class="level2">
 <h2 class="anchored" data-anchor-id="user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</h2>
-<p>For the 18 long-coverage Geolife users, I construct a nine-dimensional mobility profile capturing trip frequency, trip length, going-home behaviour, and within-trip exploration. After standardising these features, a k-means model with k = 3 identifies three distinct user types.</p>
-<p>Cluster 0 – multi-stop revisitors Users take relatively long trips (around seven non-home stops), have consistently low going-home hazards, and show the lowest exploration rate (about 17% Pv). Their mobility is dominated by chains of familiar places.</p>
-<p>Cluster 1 – errand-homebodies Trips are shorter (four to five stops), the probability of going home after the first stop is the highest, and exploration is moderate (Pv around 24%). Many outings resemble short errand trips that end quickly.</p>
-<p>Cluster 2 – exploratory roamers Users make fewer and shorter trips (around three stops) but show strong exploration. Once they remain out beyond the first stops, later-stop hazards stay low and Pv increases, indicating a tendency to continue visiting new places.</p>
-<p>To understand which behavioural dimensions drive these groups, the nine features are projected onto their first three principal components. PC1 contrasts long, routinised multi-stop mobility with shorter and more exploratory patterns. PC2 reflects overall going-out frequency and activity levels. PC3 captures late-trip behaviour, separating users whose return-home probability rises at higher stop orders from those who continue to stay out.</p>
+<p>For the selected long-coverage users, I build a multi-dimensional mobility profile capturing trip frequency, trip complexity, going-home behaviour, and within-trip exploration. After standardising these features, I apply k-means clustering (k = 3) to identify broad user types:</p>
+<ul>
+<li><strong>Cluster 0 — multi-stop revisitors:</strong> longer trips with many non-home stops, consistently low return-home hazards, and relatively low exploration (lower Pv share).</li>
+<li><strong>Cluster 1 — errand-homebodies:</strong> shorter trips and the highest probability of returning HOME after the first stop; exploration is moderate.</li>
+<li><strong>Cluster 2 — exploratory roamers:</strong> fewer and shorter trips but relatively high exploration; conditional on staying out beyond the first stop, return-home hazards tend to remain low.</li>
+</ul>
 <div id="fc86fa99" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -1614,9 +1650,9 @@ uid   pv_mse
 </div>
 </div>
 </div>
-<p>Cluster 0 (orange) — multi-stop revisitors This group sits mainly on the right side of PC1, indicating long trips with many non-home stops. Their PC2 values are moderate, showing a normal level of going-out frequency. PC3 tends to be low, meaning they rarely return home in the later part of a trip. In short: long, multi-stop routines concentrated around familiar places.</p>
-<p>Cluster 1 (blue) — errand-homebodies These users cluster toward higher PC2, reflecting frequent going-out. Their PC1 values are slightly left or near the centre, consistent with short to medium trips. PC3 is higher than other groups, indicating a strong tendency to return home after the first one or two stops. In short: they go out often, but most outings are short errand-like trips that end quickly.</p>
-<p>Cluster 2 (green) — exploratory roamers This cluster contains user 092, positioned at the low end of all three PCs: low PC1 (short trips), low PC2 (infrequent going-out), and low PC3 (very low late-trip hazard). In short: rare outings, but whenever they go out, they behave highly exploratively rather than following routines.</p>
+<p>Cluster 0 (orange) — multi-stop revisitors These users make longer, multi-stop trips and often string together several non-home stops in one outing. Their overall going-out frequency is fairly normal (not especially high or low). Once they are out, their chance of returning home at later stops tends to stay low, so trips look like extended chains of mostly familiar places.</p>
+<p>Cluster 1 (blue) — errand-homebodies These users go out more frequently, but their trips are generally short to medium in length. A defining feature is that they often return home quickly—many outings end after the first one or two non-home stops. Overall, their mobility looks like frequent, errand-style trips that wrap up fast.</p>
+<p>Cluster 2 (green) — exploratory roamers These users go out less often and their trips are shorter on average, but their behaviour while out is more exploratory. If they don’t return home immediately, they tend to keep going rather than heading back, with a low tendency to go home at later stops. In practice, this looks like fewer outings, but relatively more exploration when outings happen.</p>
 
 
 </section>

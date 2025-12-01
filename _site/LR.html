@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Literature Review &amp; Project Overview – Geolife Daily Mobility</title>
+<title>Project Overview – Geolife Daily Mobility</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -167,9 +167,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#what-is-epr" id="toc-what-is-epr" class="nav-link active" data-scroll-target="#what-is-epr">1. What is EPR?</a></li>
-  <li><a href="#data-processing-from-raw-gps-to-homehome-trips" id="toc-data-processing-from-raw-gps-to-homehome-trips" class="nav-link" data-scroll-target="#data-processing-from-raw-gps-to-homehome-trips">2. Data Processing: From Raw GPS to Home–Home Trips</a></li>
-  <li><a href="#trip-level-behaviour-within-a-single-user" id="toc-trip-level-behaviour-within-a-single-user" class="nav-link" data-scroll-target="#trip-level-behaviour-within-a-single-user">3. Trip-level behaviour within a single user</a></li>
-  <li><a href="#cross-user-comparison-pca-and-clustering-of-epr-profiles" id="toc-cross-user-comparison-pca-and-clustering-of-epr-profiles" class="nav-link" data-scroll-target="#cross-user-comparison-pca-and-clustering-of-epr-profiles">4. Cross-User Comparison: PCA and Clustering of EPR Profiles</a></li>
+  <li><a href="#from-epr-concept-to-empirical-patterns" id="toc-from-epr-concept-to-empirical-patterns" class="nav-link" data-scroll-target="#from-epr-concept-to-empirical-patterns">2. From EPR Concept to Empirical Patterns</a></li>
   </ul>
 </nav>
     </div>
@@ -178,7 +176,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./LR.html">Analysis</a></li><li class="breadcrumb-item"><a href="./LR.html">Notebook 0 - Overview</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Literature Review &amp; Project Overview</h1>
+<h1 class="title">Project Overview</h1>
 </div>
 
 
@@ -195,43 +193,20 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This project uses high-resolution Geolife GPS trajectories to examine everyday mobility as a sequence of discrete visits, trips, and exploration decisions.</p>
-<section id="what-is-epr" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-epr">1. What is EPR?</h3>
+<p>This project analyzes high-resolution Geolife GPS trajectories by representing everyday mobility as a sequence of discrete visit events linked into home-based trips. Each non-home stop is labeled as either a first-time place or a return place to quantify exploration versus revisitation within and across trips. Using these labeled sequences, I estimate how the likelihood of returning home and the propensity to explore evolve with stop order and compare these patterns across users.</p>
+<section id="what-is-epr" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-epr">1. What is EPR?</h2>
 <p>We examine everyday movement as a balance between revisiting familiar places and exploring new ones. In behavioral terms, most people follow habitual travel routines (e.g., home–work–home) yet occasionally deviate to novel destinations. This “exploit vs.&nbsp;explore” trade-off can be framed by an Exploration–Preferencing Ratio (EPR): a higher EPR means more exploration of new sites relative to returning to known ones. Conceptually, EPR is analogous to the exploration-and-preferential-return model in human mobility research, in which at each move an agent either visits a new location or returns to a past one (Pappalardo, Rinzivillo, &amp; Simini, 2016; Song, Koren, Wang, &amp; Barabási, 2010). Large-scale visitation patterns have been shown to arise from EPR-like dynamics in empirical data (Schläpfer et al., 2021; Song, Qu, Blumm, &amp; Barabási, 2010).</p>
 <p>In mobility data, we treat EPR operationally as the ratio of novel stops to repeated stops. For example, if a trip includes three previously unvisited stops (exploration) and one repeated stop, the person’s trip-level EPR would be 3:1, indicating exploratory behavior. In our context, we adapt this idea to individual GPS trajectories by explicitly labelling each stop as either “Pv” (previously visited) or “Pn” (novel), and then modeling the patterns of Pv/Pn occurrences within trips.</p>
 <p>In our data, we operationalize this by labelling each non-home stop as Pn (novel) if it is the first time the user has stopped at that particular location, or Pv (visited) if it falls at a location the user has visited before. Over a trip (home → … → home), we then summarize the trip’s exploratory tendency by, for example, the count of Pn stops or the ratio Pn/(Pv + Pn). A person’s overall EPR can be aggregated from their trips (e.g., average per-trip exploration rate).</p>
 <p>This trip-focused EPR differs from classic probabilistic models (e.g., the EPR model of Song et al., 2010) in that we measure empirical behavior rather than impose a fixed probability of exploration (Song et al., 2010). Prior literature has examined related metrics: Pappalardo et al.&nbsp;(2015), for instance, show that individuals cluster into “explorers” (many new locations) or “returners” (few new locations) based on visit-count ratios. Our approach is similar in spirit but works at the granularity of trips and discrete stops.</p>
 <p>We also draw on ecological ideas of foraging: just as people navigating information maximize an information-gain rate by choosing to explore “new patches” only when the expected gain outweighs the cost (Pirolli &amp; Card, 1999; Nielsen, 2019), travelers may implicitly weigh the novelty of a potential stop against its travel or time cost. We do not explicitly model that decision rule, but the EPR encapsulates its outcome. In short, EPR is the key behavioral concept linking individual choices of revisiting vs.&nbsp;exploring, and our goal is to measure it from trajectory data.</p>
 </section>
-<section id="data-processing-from-raw-gps-to-homehome-trips" class="level3">
-<h3 class="anchored" data-anchor-id="data-processing-from-raw-gps-to-homehome-trips">2. Data Processing: From Raw GPS to Home–Home Trips</h3>
-<p>We apply the methodology to the Microsoft Geolife GPS dataset (184 users, multi-year GPS tracks; Zheng, Xie, &amp; Ma, 2010). After loading and cleaning the Geolife .plt trajectories, coordinates are projected to UTM Zone 50N so that distances are measured in meters. The trajectory is then discretized onto a regular 500 m × 500 m grid, and consecutive fixes assigned to the same grid cell are treated as a single stay segment. This representation reduces sensitivity to GPS jitter and irregular sampling, while producing visits with explicit arrival/departure times and durations.</p>
-<p>Home location is inferred from night-time (00:00–06:00) observations rather than overall visit frequency: the grid cell with the strongest night-time presence is labeled HOME, and a secondary frequent night-time cell may be labeled SW. To avoid misclassifying fast in-transit corridors as “places,” daily activity locations are identified conservatively using line–grid intersection counts: consecutive points are connected into segments, and grid cells with sufficiently many segment intersections are retained, with an adaptive threshold to cap the number of activity cells per day. Visit events are then constructed by collapsing the within-day cell sequence, dropping non-activity blocks as transit, and merging adjacent identical blocks to reduce fragmentation.</p>
-<p>Each non-home visit is labeled as first-time versus return based on the user’s cumulative visitation history across days: a cell is treated as novel the first day it appears as an activity location and as a return on subsequent days. The resulting visit sequence provides the input for subsequent steps, where home–home trips are constructed and the trip-level Pv/Pn patterns are analyzed to quantify exploration behavior.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="image/001.png" class="img-fluid figure-img"></p>
-<figcaption>Notebook 1 overview</figcaption>
-</figure>
-</div>
-</section>
-<section id="trip-level-behaviour-within-a-single-user" class="level3">
-<h3 class="anchored" data-anchor-id="trip-level-behaviour-within-a-single-user">3. Trip-level behaviour within a single user</h3>
-<p>Given the home–home trip sequences with first-time/return labels, two step-level aspects of trip behavior are modeled.</p>
-<p>The first is the hazard of returning home (trip termination). Each trip is treated as a discrete-time survival process: at every stop (time step) prior to termination, there is some probability that the next move is a return to HOME. Following Singer and Willett’s discrete-time framework, a logistic hazard model is estimated by “exploding” each trip into one row per stop, with a binary outcome indicating whether the next step is HOME (return = 1) or not (0). This outcome is regressed on covariates observed at that step (e.g., stop order, elapsed time since departure, distance from home, and whether the most recent stop was first-time versus a return). The fitted hazard model summarizes how the propensity to end a trip evolves as the trip unfolds.</p>
-<p>The second component models exploration propensity at each step. Here the binary outcome indicates whether the current stop is a first-time place versus a return (under the notebook’s Pv/Pn convention). A logistic regression (or similar classifier) is fitted for “explore = 1” using predictors such as step index, time of day, day of week, and distance from home. This model captures how the probability of making a first-time stop changes with trip progress and context, and can be interpreted as a step-level analogue of EPR.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="image/002.png" class="img-fluid figure-img"></p>
-<figcaption>Notebook 2 overview</figcaption>
-</figure>
-</div>
-</section>
-<section id="cross-user-comparison-pca-and-clustering-of-epr-profiles" class="level3">
-<h3 class="anchored" data-anchor-id="cross-user-comparison-pca-and-clustering-of-epr-profiles">4. Cross-User Comparison: PCA and Clustering of EPR Profiles</h3>
-<p>Finally, we compare users in the space of these model-derived behaviors. Each user’s model yields a feature vector (e.g., [hazard intercept, hazard slope, exploration intercept, exploration slope, …]) that encodes their tendency to explore and to return. Since this vector may be high-dimensional, we first apply principal components analysis (PCA) to reduce dimensionality and identify the main axes of behavioral variance. PCA reveals whether users vary along, for example, a “high-exploration vs.&nbsp;high-preference for revisitation” spectrum or along other blended factors.</p>
-<p>We then apply k-means clustering (with k chosen by silhouette or cross-validation criteria) to group users into behavioral phenotypes based on their PCA scores. Prior work has shown that clustering mobility patterns often yields well-separated groups defined by exploration intensity and travel range. In our case, the clustering identifies typical EPR/hazard profiles in the population—for example, “local explorers” (generally short trips but often to new places) versus “long-distance returners” (travel far but largely between the same hubs). We can then summarize each cluster by its mean EPR, radius of gyration, and similar indicators, and interpret it in behavioral terms.</p>
+<section id="from-epr-concept-to-empirical-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="from-epr-concept-to-empirical-patterns">2. From EPR Concept to Empirical Patterns</h2>
+<p>Building on the EPR idea, the remainder of the project focuses on how exploration and returning behaviour unfold within trips and how these patterns vary across individuals. Rather than treating mobility purely as a set of locations, I treat it as an ordered sequence of stops and decisions, which makes it possible to ask step-by-step questions such as: When do trips tend to end? and At what point in a trip do new places become more likely?</p>
+<p>At the trip level, I summarize outings by their length (number of non-home stops) and spatial reach (distance from HOME), and then examine the next-step dynamics after each stop. This enables a clear separation between short, errand-like trips (often ending quickly) and longer outings in which individuals remain out and continue chaining stops. In parallel, I quantify exploration by tracking the share of first-time stops within trips and how that share changes as a trip progresses.</p>
+<p>Finally, the analysis scales up to a cross-user setting. For a set of long-coverage users, I compute comparable trip and exploration summaries and estimate user-specific parameters that capture both (i) overall levels of going home and exploration and (ii) how these tendencies change with stop order. These user-level profiles support systematic cross-user comparisons and allow the identification of broad behavioural types (e.g., frequent errand trips versus fewer but more exploratory outings).</p>
 
 
 </section>

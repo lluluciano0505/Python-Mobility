@@ -1,33 +1,32 @@
 ---
 title: "Geolife Daily Mobility"
+page-layout: full
+toc: true
+toc-depth: 2
 ---
 
-Welcome!
+## About me
 
-This mini site presents an exploratory case study of daily mobility using
-the Geolife GPS trajectories. The analysis is organised into five main
-notebooks:
+I’m Jingqi (Luciano) Lu. This site is a notebook-style project using Geolife GPS trajectories to build visit events, reconstruct home-based trips, and summarize within-trip “going home” and exploration patterns.
 
-- **Notebook 0 - Overview**  
-  What is EPR and structure of the study.
+## Notebooks
 
-- **Notebook 1 – Data cleaning**  
-  From raw Geolife trajectories to a visit-level table: loading `.plt`
-  files, filtering to Beijing, projecting to a 500 m grid, and detecting
-  home / stay locations.
+- Notebook 0: Overview  
+- Notebook 1: Data cleaning → visit-level table (HOME/SW, Pv/Pn, visits)  
+- Notebook 2: Trip reconstruction and within-trip behaviour (next-step, hazard/survival, Pv trend)  
+- Notebook 3: Cross-user checks (user summaries, hazard/Pv curves, clustering)  
+- Notebook 4: Conclusion (key findings, limitations, next steps)
 
-- **Notebook 2 – Trips by action**  
-  Builds home–home trips from visit events, then studies within-trip
-  behaviour, including the discrete-time hazard of going home and the
-  probability of visiting new places (Pv).
+## Data and outputs
 
-- **Notebook 3 – Cross-user verification**  
-  Extends the trip-level analysis to multiple long-coverage users, compares
-  going-home hazards and exploration profiles, and clusters users into
-  behavioural types.
+Data: Microsoft Research Geolife GPS trajectories.  
+Main output files include `visit_level_table_XXX.csv`, plus trip summaries and fitted parameters produced in later notebooks.
 
-- **Findings and conclusion**  
-  Summarises the main empirical patterns and discusses which aspects of
-  daily mobility appear systematic at the population level and which are
-  strongly user-specific.
+## Reproducibility
 
+Run notebooks top-to-bottom. If needed, update paths under the `Geolife Trajectories 1.3/` folder.
+
+## Contact
+
+GitHub: https://github.com/lluluciano0505/  
+Email: lluluciano0505@gmail.com

@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
@@ -161,11 +161,21 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#about-me" id="toc-about-me" class="nav-link active" data-scroll-target="#about-me">About me</a></li>
+  <li><a href="#notebooks" id="toc-notebooks" class="nav-link" data-scroll-target="#notebooks">Notebooks</a></li>
+  <li><a href="#data-and-outputs" id="toc-data-and-outputs" class="nav-link" data-scroll-target="#data-and-outputs">Data and outputs</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
+  <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact">Contact</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -174,7 +184,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -186,22 +196,40 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Welcome!</p>
-<p>This mini site presents an exploratory case study of daily mobility using the Geolife GPS trajectories. The analysis is organised into five main notebooks:</p>
+<section id="about-me" class="level2">
+<h2 class="anchored" data-anchor-id="about-me">About me</h2>
+<p>I’m Jingqi (Luciano) Lu. This site is a notebook-style project using Geolife GPS trajectories to build visit events, reconstruct home-based trips, and summarize within-trip “going home” and exploration patterns.</p>
+</section>
+<section id="notebooks" class="level2">
+<h2 class="anchored" data-anchor-id="notebooks">Notebooks</h2>
 <ul>
-<li><p><strong>Notebook 0 - Overview</strong><br>
-What is EPR and structure of the study.</p></li>
-<li><p><strong>Notebook 1 – Data cleaning</strong><br>
-From raw Geolife trajectories to a visit-level table: loading <code>.plt</code> files, filtering to Beijing, projecting to a 500 m grid, and detecting home / stay locations.</p></li>
-<li><p><strong>Notebook 2 – Trips by action</strong><br>
-Builds home–home trips from visit events, then studies within-trip behaviour, including the discrete-time hazard of going home and the probability of visiting new places (Pv).</p></li>
-<li><p><strong>Notebook 3 – Cross-user verification</strong><br>
-Extends the trip-level analysis to multiple long-coverage users, compares going-home hazards and exploration profiles, and clusters users into behavioural types.</p></li>
-<li><p><strong>Findings and conclusion</strong><br>
-Summarises the main empirical patterns and discusses which aspects of daily mobility appear systematic at the population level and which are strongly user-specific.</p></li>
+<li>Notebook 0: Overview<br>
+</li>
+<li>Notebook 1: Data cleaning → visit-level table (HOME/SW, Pv/Pn, visits)<br>
+</li>
+<li>Notebook 2: Trip reconstruction and within-trip behaviour (next-step, hazard/survival, Pv trend)<br>
+</li>
+<li>Notebook 3: Cross-user checks (user summaries, hazard/Pv curves, clustering)<br>
+</li>
+<li>Notebook 4: Conclusion (key findings, limitations, next steps)</li>
 </ul>
+</section>
+<section id="data-and-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-outputs">Data and outputs</h2>
+<p>Data: Microsoft Research Geolife GPS trajectories.<br>
+Main output files include <code>visit_level_table_XXX.csv</code>, plus trip summaries and fitted parameters produced in later notebooks.</p>
+</section>
+<section id="reproducibility" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility">Reproducibility</h2>
+<p>Run notebooks top-to-bottom. If needed, update paths under the <code>Geolife Trajectories 1.3/</code> folder.</p>
+</section>
+<section id="contact" class="level2">
+<h2 class="anchored" data-anchor-id="contact">Contact</h2>
+<p>GitHub: https://github.com/lluluciano0505/<br>
+Email: lluluciano0505@gmail.com</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
