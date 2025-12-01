@@ -41,7 +41,7 @@ website:
           - href: "verification.ipynb"
             text: "Notebook 3 – Cross-user verification"
           - href: "conclusion.ipynb"
-            text: "Findings and conclusion"
+            text: "Notebook 4 - Findings and conclusion"
 
 format:
   html:
@@ -49,6 +49,8 @@ format:
     toc: true
     code-copy: true
     code-overflow: wrap
+    code-fold: true
+    code-summary: "Show code"
 
 publish:
   gh-pages: true

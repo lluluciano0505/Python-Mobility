@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Findings and conclusion</span></a>
+ <span class="menu-text">Notebook 4 - Findings and conclusion</span></a>
   </div>
 </li>
       </ul>
@@ -243,6 +243,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="import-the-datasets-from-000">1. Import the Datasets from 000</h2>
 <p>In this notebook the analysis starts from the visit-level table constructed in Notebook 1. The file <code>visit_level_table_000.csv</code> is loaded from the <code>data</code> folder and the basic Python environment (NumPy, pandas, Matplotlib) is set up. Date and time fields are combined into full start and end timestamps for each visit (<code>first_dt</code> and <code>last_dt</code>), and the user identifier is taken from the <code>person</code> column for use in plots. The table is then sorted by person, date, and start time to produce a clean, time-ordered record of visit events rather than daily aggregates; subsequent sections build on this event sequence to identify complete home–home trips (individual “outings”).</p>
 <div id="625d83d0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="2">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(</span>
@@ -250,8 +252,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    message<span class="op">=</span><span class="st">"DataFrameGroupBy.apply operated on the grouping columns"</span>,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    category<span class="op">=</span><span class="pp">FutureWarning</span>,</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="5684db95" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="3">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Environment and data loading</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -290,6 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Rows in visit_table after sorting:"</span>, <span class="bu">len</span>(visit_table))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows in visit_table: 1841</code></pre>
 </div>
@@ -444,6 +450,8 @@ Rows in visit_table after sorting: 1841</code></pre>
 <p>The next stage groups individual visit events into complete home-to-home trips. For each person and each day, the visit records are ordered by their start times. Any record marked is_home == 1 is treated as being at HOME. A new trip begins the moment the user leaves HOME for a non-home location, continues through any consecutive non-home stops, and ends as soon as the user returns home. If the user never comes back home later that day, the trip is considered to end at the final non-home visit. This approach turns a simple list of places into meaningful “outings” that begin at home and eventually return there.</p>
 <p>To make later analysis easier, each visit receives two indexing variables. The first, trip_id, indicates which trip of the day the visit belongs to, with 0 reserved for visits that do not fall inside any trip. The second, action_order_in_trip, captures the position of each stop within its trip. Non-home stops are numbered sequentially as 1, 2, 3, and so on, while HOME visits at the beginning or end of a trip are assigned 0. These indices create a clean structure for studying how behaviour unfolds over the course of each outing.</p>
 <div id="f996c055" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="4">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_trip_cols(df_day):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    For a single (person, date), label home–home trip episodes.</span></span>
@@ -503,6 +511,7 @@ Rows in visit_table after sorting: 1841</code></pre>
 <span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of trips (trip_id &gt; 0):"</span>, (visit_table[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">sum</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Trip-related columns (first 20 rows):</code></pre>
 </div>
@@ -660,6 +669,8 @@ Rows in visit_table after sorting: 1841</code></pre>
 <h2 class="anchored" data-anchor-id="trip-level-descriptive-statistics">3. Trip-level descriptive statistics</h2>
 <p>The visit-level data are next collapsed to the trip level. For each combination of person, date, and trip_id, a single row is created that records the number of non-home stops (n_stops), the start and end times of the trip (trip_start, trip_end), and the maximum and average distance from HOME reached during that outing (max_dist_home, mean_dist_home). Simple summaries and histograms based on this trip-level table, especially for n_stops and max_dist_home, show how long typical outings last and how far the user usually travels away from home.</p>
 <div id="b98bfe09" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="11">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only visits that belong to a trip</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>vt_trip <span class="op">=</span> visit_table[visit_table[<span class="st">"trip_id"</span>] <span class="op">&gt;</span> <span class="dv">0</span>].copy()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -700,6 +711,7 @@ Rows in visit_table after sorting: 1841</code></pre>
 <span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f"Maximum distance from HOME per trip — user </span><span class="sc">{</span>USER_ID<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of trips: 429</code></pre>
 </div>
@@ -814,6 +826,8 @@ Rows in visit_table after sorting: 1841</code></pre>
 <p>A special rule is applied to the last non-home stop of each trip. When this final stop is labeled end, it often reflects the end of the day rather than a genuine termination of activity away from home. To avoid treating these end-of-day records as if the person remained out indefinitely, we reclassify an end outcome as effectively going home if the stop occurs late at night (hour ≥ 23) or is very close to HOME (within 750 m). This adjustment ensures that outcome categories are more comparable across different stops and reduces artificial inflation of “end” events.</p>
 <p>After this reclassification, the resulting next-step outcomes are tabulated by the stop order 𝑘 k within each trip. This tabulation describes how the relative frequencies of “go home,” “keep exploring,” and “end” evolve as a trip progresses, providing a clearer picture of within-trip behavioral dynamics.</p>
 <div id="c7f85136" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="6">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>MAXK <span class="op">=</span> <span class="dv">30</span>        <span class="co"># only consider the first 30 stops within each trip</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>NIGHT_HOUR <span class="op">=</span> <span class="dv">23</span>  <span class="co"># &gt;= 23:00 considered "late"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>NEAR_HOME_M <span class="op">=</span> <span class="dv">750</span></span>
@@ -874,6 +888,7 @@ Rows in visit_table after sorting: 1841</code></pre>
 <span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Outcome composition (first 10 k):"</span>)</span>
 <span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>display(props[[<span class="st">"explore"</span>, <span class="st">"home"</span>, <span class="st">"end"</span>]].head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Non-home visit events inside trips: 1306
 
@@ -992,6 +1007,8 @@ Outcome composition (first 10 k):</code></pre>
 <p>Based on the hazards, the analysis also derives the <strong>survival probability</strong> (S_k), defined as the probability that a trip is still ongoing after (k) non-home stops. In discrete time, this is obtained by multiplying (1 - h_k)&nbsp;across successive steps, as the chance that the individual has not yet decided to return home. Intuitively, (S_k) represents the probability that the person is “still out” after making (k) stops away from home.</p>
 <p>The first panel visualizes the empirical hazards (h_k) together with a simple logit trend in (k) fitted for (k ), showing how the propensity to go home varies with stop order. The second panel compares the empirical survival curve (S_k) with the corresponding model-based survival curve implied by the fitted hazard specification. Together, these plots illustrate how both the “go home now” probability and the “still out” probability evolve as trips become longer.</p>
 <div id="ba43393d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="7">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Per-trip maximum stop order (within the MAXK truncation)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>pertrip_maxk <span class="op">=</span> (</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    vis.groupby([<span class="st">"person"</span>, <span class="st">"date"</span>, <span class="st">"trip_id"</span>])[<span class="st">"action_order_in_trip"</span>]</span>
@@ -1095,6 +1112,7 @@ Outcome composition (first 10 k):</code></pre>
 <span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Hazard table (first 10 k):</code></pre>
 </div>
@@ -1205,6 +1223,8 @@ x1    -0.092337  0.033081 -2.791279  5.250023e-03 -0.157174 -0.02750</code></pre
 <p>To study how exploration changes as a trip unfolds, the stops are ordered by their position within the trip. For each stop number (k), the share of stops that are Pv is calculated. This produces an empirical curve showing how often new places appear at different stages of a trip.</p>
 <p>For user <code>000</code>, about 18% of all non-home stops across trips are first-time places. The exploration rate is relatively low in the first few stops but gradually increases as the trip continues, reaching roughly 30% around the 8th to 10th stop. A simple logit regression, applied only to stop numbers with enough observations, provides the smooth trend line shown in the figure. The estimated effect suggests that each additional stop in a trip increases the odds of discovering a new place by around one quarter.</p>
 <div id="cafbcfc2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="8">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-home visits inside trips (same base as for hazard)</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>vis_places <span class="op">=</span> visit_table[</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    (visit_table[<span class="st">"is_home"</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span></span>
@@ -1236,6 +1256,7 @@ x1    -0.092337  0.033081 -2.791279  5.250023e-03 -0.157174 -0.02750</code></pre
 <span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>      <span class="bu">round</span>(overall_pv, <span class="dv">3</span>))</span>
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Pv rate by stop order k (first 10 k):"</span>)</span>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>display(pv_by_k[[<span class="st">"action_order_in_trip"</span>, <span class="st">"pv_rate"</span>]].head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Overall share of first-time places (Pv) among non-home trip stops: 0.181
 
@@ -1311,6 +1332,8 @@ Pv rate by stop order k (first 10 k):</code></pre>
 </div>
 </div>
 <div id="8e793d80" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;jupyter&quot;,&quot;value&quot;:{&quot;source_hidden&quot;:true}}" data-execution_count="9">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pv_by_k <span class="op">=</span> pv_by_k.copy() </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>MIN_N <span class="op">=</span> <span class="dv">30</span></span>
@@ -1375,6 +1398,7 @@ Pv rate by stop order k (first 10 k):</code></pre>
 <span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Ks with n &gt;= 30: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                Coef.  Std.Err.          z         P&gt;|z|    [0.025    0.975]

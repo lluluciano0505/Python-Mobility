@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./conclusion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Findings and conclusion</span></a>
+ <span class="menu-text">Notebook 4 - Findings and conclusion</span></a>
   </div>
 </li>
       </ul>
@@ -247,6 +247,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Second, I summarise each user’s mobility with a compact set of trip-level statistics, including the number of active days, the frequency and length of home–home trips, and simple indicators of how often non-home stops correspond to first-time places (Pv) versus revisits.</p>
 <p>Third, I compare going-home hazards and within-trip exploration patterns across individuals by fitting user-specific discrete-time logit models in the stop order index, which yield a small number of interpretable parameters describing both the overall level and the within-trip dynamics of “going home” and “exploring” for each person.</p>
 <div id="01183d36" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ignore"</span>,</span>
@@ -361,12 +363,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>          .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vt_trips</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="per-user-trip-level-summary" class="level3">
 <h3 class="anchored" data-anchor-id="per-user-trip-level-summary">2. Per-user trip-level summary</h3>
 <p>In this step I construct a compact trip-level “fingerprint” for each long-coverage user. Starting from the visit-level tables, I first re-attach home–home trip structure and then summarise overall trip patterns: the number of days with data, the number of days with at least one non-home stop, the total number of trips, and the distribution of non-home stops per trip (mean, median, maximum). On top of this, I estimate a discrete-time going-home model for each user, collapsing the full hazard curve into three parameters: the empirical probability of going home after the first stop, a pooled hazard for stops two and above, and a logit slope describing how the going-home probability changes with stop order. Finally, I fit a within-trip exploration model that records the overall share of first-time places (Pv) among non-home stops and an odds ratio describing how the odds of visiting a new place change with each additional stop in the trip. The resulting <code>summary_df</code> has one row per user and collects these trip, hazard, and exploration statistics for subsequent cross-user comparison.</p>
 <div id="c75725f7" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarise_trip_structure(vt_trips: pd.DataFrame) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Basic trip-level stats:</span></span>
@@ -619,6 +624,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>summary_df <span class="op">=</span> pd.DataFrame(summary_rows).sort_values(<span class="st">"uid"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>summary_df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
@@ -923,6 +929,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</h3>
 <p>In this step I move from single-user analysis to a pooled view of going-home behaviour across all long-coverage users. Using the visit-level tables with trip structure attached, I reconstruct the discrete-time hazard of going home within a trip for each user separately. For every non-home stop order (k), I identify how many trips are still “at risk” at that stop and how many of them go home immediately afterwards. These counts are used to form the empirical hazard curve and to fit a simple logit model in the stop index, while keeping the first-stop hazard at its empirical value.</p>
 <div id="2da8d2b4" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MAXK <span class="op">=</span> <span class="dv">12</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>MIN_RISK <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1061,6 +1069,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>plt.legend(ncol<span class="op">=</span><span class="dv">3</span>, fontsize<span class="op">=</span><span class="dv">8</span>, frameon<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Users with usable hazard curves: 18</code></pre>
 </div>
@@ -1078,6 +1087,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="cross-user-within-trip-exploration-pv">4. Cross-user within-trip exploration (Pv)</h2>
 <p>In this step I summarise within-trip exploration behaviour across users using the Pv logit model. For each user, I first restrict attention to non-home stops within home–home trips and count, for each stop order (k ), how many of these stops are first-time places (Pv) versus revisits (Pn). Using these counts, I estimate a user-specific logit model where the stop order in the trip enters as a linear predictor (after recentring), and use the fitted model to obtain a smooth Pv probability curve over (k). The resulting fitted curves are then overlaid across users, so that differences in both the baseline exploration rate and the slope with respect to stop order can be inspected on a common scale.</p>
 <div id="4d20bca7" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>MAXK_PV <span class="op">=</span> <span class="dv">12</span>      <span class="co"># maximum stop order for Pv curves</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>MIN_N_PV <span class="op">=</span> <span class="dv">20</span>     <span class="co"># minimum n per k for fitting / error</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1203,6 +1214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>plt.legend(ncol<span class="op">=</span><span class="dv">3</span>, fontsize<span class="op">=</span><span class="dv">8</span>, frameon<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Users with usable Pv curves: 18</code></pre>
 </div>
@@ -1220,6 +1232,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="model-fit-for-hazard-and-pv-curves">5. Model fit for hazard and Pv curves</h2>
 <p>To assess how well the simple logit specifications reproduce the empirical patterns, I construct a user-level goodness-of-fit measure for both models. For each user and each stop order within the range used in the analysis, I compare the empirical probabilities with the corresponding fitted values and compute a mean squared error (MSE) over the available stop orders. For the going-home hazard, the MSE is based on all non-missing hazard points, while for the Pv model it is restricted to stop orders with at least <code>MIN_N_PV</code> observations. The resulting MSEs are then merged back into the user summary table, providing a compact diagnostic of how well the fitted curves approximate the empirical profiles for each individual.</p>
 <div id="d9d32d9e" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># === 5.0 Compute per-user MSE for hazard and Pv ===</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.0.1 Hazard MSE for each user</span></span>
@@ -1267,8 +1281,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>      .sort_values(<span class="st">"uid"</span>)</span>
 <span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>      .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="eacd144e" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.1 Hazard MSE summary</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>h_min   <span class="op">=</span> haz_fit_df[<span class="st">"hazard_mse"</span>].<span class="bu">min</span>()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>h_med   <span class="op">=</span> haz_fit_df[<span class="st">"hazard_mse"</span>].median()</span>
@@ -1307,6 +1324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    .merge(pv_fit_df,  on<span class="op">=</span><span class="st">"uid"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
 <span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>summary_fit.to_csv(<span class="st">"data/user_trip_summary_with_fit.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Hazard MSE range: 0.0002 – 0.0138, median 0.0013
 Best hazard fits:
@@ -1333,6 +1351,8 @@ uid   pv_mse
 <h3 class="anchored" data-anchor-id="a-hazard-fit-best-and-worst-users">5.a Hazard fit: best and worst users</h3>
 <p>Figure 5a compares the empirical trip-level going-home hazard with the fitted logit curves for the two best-fitting users (003, 030) and the two worst-fitting users (112, 104). For Users 003 and 030, the points lie almost exactly on the fitted line across stop orders 1–12, and the MSE is essentially zero, which means the simple logit trend in k captures their going-home probabilities very well. For Users 112 and 104 the overall MSE is still small (≈0.014 and ≈0.009), but the last few stops show visible deviations: with few long trips, individual “go home” events at high k create noisy empirical hazards that the smooth logit curve only approximates.</p>
 <div id="8b49f333" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.a Hazard fit: 2×2 panels for best and worst users</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>haz_best  <span class="op">=</span> [<span class="st">"003"</span>, <span class="st">"030"</span>]</span>
@@ -1366,6 +1386,7 @@ uid   pv_mse
 <span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="fl">0.06</span>, <span class="fl">0.06</span>, <span class="dv">1</span>, <span class="fl">0.94</span>])</span>
 <span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1379,6 +1400,8 @@ uid   pv_mse
 <h3 class="anchored" data-anchor-id="b-pv-fit-best-and-worst-users">5.b Pv fit: best and worst users</h3>
 <p>Figure 5b repeats the same exercise for within-trip exploration. For Users 030 and 084 (best fits), the fitted Pv probability is almost indistinguishable from the empirical Pv share for k up to 10, and the MSE stays around 0.001, indicating that a linear logit trend in stop order is an adequate summary of how exploration evolves within their trips. For Users 112 and 041 (worst fits), the fitted line still gets the general level and slope roughly right, but the empirical points at higher k fluctuate more strongly (especially for 112), reflecting sparse data for long trips rather than a systematic failure of the model.</p>
 <div id="7e21a5d7" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.b Pv fit: 2×2 panels for best and worst users</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>pv_best  <span class="op">=</span> [<span class="st">"030"</span>, <span class="st">"084"</span>]</span>
@@ -1414,6 +1437,7 @@ uid   pv_mse
 <span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>plt.tight_layout(rect<span class="op">=</span>[<span class="fl">0.06</span>, <span class="fl">0.06</span>, <span class="dv">1</span>, <span class="fl">0.94</span>])</span>
 <span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1432,6 +1456,8 @@ uid   pv_mse
 <p>Cluster 2 – exploratory roamers Users make fewer and shorter trips (around three stops) but show strong exploration. Once they remain out beyond the first stops, later-stop hazards stay low and Pv increases, indicating a tendency to continue visiting new places.</p>
 <p>To understand which behavioural dimensions drive these groups, the nine features are projected onto their first three principal components. PC1 contrasts long, routinised multi-stop mobility with shorter and more exploratory patterns. PC2 reflects overall going-out frequency and activity levels. PC3 captures late-trip behaviour, separating users whose return-home probability rises at higher stop orders from those who continue to stay out.</p>
 <div id="fc86fa99" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>feat_cols <span class="op">=</span> [</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"mean_stops_per_trip"</span>,     </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"median_stops_per_trip"</span>,</span>
@@ -1467,6 +1493,7 @@ uid   pv_mse
 <span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">"PC1"</span>, <span class="st">"PC2"</span>, <span class="st">"PC3"</span>]</span>
 <span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>display(loadings.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stderr">
 <pre><code>c:\Users\Jingqi\anaconda3\envs\geospatial\Lib\site-packages\sklearn\cluster\_kmeans.py:1419: UserWarning: KMeans is known to have a memory leak on Windows with MKL, when there are less chunks than available threads. You can avoid it by setting the environment variable OMP_NUM_THREADS=1.
   warnings.warn(</code></pre>
@@ -1546,6 +1573,8 @@ uid   pv_mse
 </div>
 </div>
 <div id="b7064a9f" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.mplot3d <span class="im">import</span> Axes3D </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1576,6 +1605,7 @@ uid   pv_mse
 <span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
