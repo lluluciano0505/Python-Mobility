@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Reference.qmd" class="sidebar-item-text sidebar-link">
+  <a href="./Reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reference</span></a>
   </div>
 </li>
@@ -954,17 +954,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cross-user-trip-level-going-home-hazards" class="level2">
 <h2 class="anchored" data-anchor-id="cross-user-trip-level-going-home-hazards">3. Cross-user trip-level going-home hazards</h2>
-<p>Here I reconstruct the discrete-time hazard of going HOME within a trip for each user separately. For each stop order k, I compute:</p>
-<ul>
-<li>how many trips reach at least stop k (the risk set), and</li>
-<li>among those, how many return HOME immediately after stop k.</li>
-</ul>
-<p>These define an empirical hazard curve for each user. I then fit a simple logit trend in k for the later stops (k ≥ 2), while keeping the first-stop hazard fixed at its empirical value. Overlaying the fitted curves across users highlights both:</p>
-<ul>
-<li>level differences (some users are generally more likely to go HOME during trips), and</li>
-<li>shape differences (whether the tendency to go HOME changes as trips accumulate more stops).</li>
-</ul>
-<p>Most users show a high first-stop hazard—consistent with many short, errand-like trips—followed by a lower hazard once the trip continues beyond the initial stop. Apparent upward “tails” at large stop orders often coincide with sparse data for long trips, where a small number of return-home events can cause noisy empirical hazards at high k.</p>
+<p>In this section, I treat “going home during a trip” as a discrete-time stopping process and estimate a separate going-home hazard curve for each user. For each stop order k, I count (1) how many trips survive to at least stop k (the risk set) and (2) among those, how many return HOME immediately after stop k. Their ratio yields an empirical hazard at each k. To smooth and compare patterns across users, I keep the first-stop hazard fixed at its empirical value—since it is typically much higher and reflects many short, errand-like trips—and fit a simple logit trend in k for later stops (k≥2). Overlaying the fitted curves highlights both level differences (some users are generally more likely to go HOME during trips) and shape differences (whether the going-home tendency declines, stabilizes, or rises as trips accumulate more stops). Finally, because the risk set becomes small at large k, the empirical hazards for long trips can be noisy; apparent “upward tails” at high stop orders may therefore reflect sparse data rather than a robust behavioral trend.</p>
 <div id="2da8d2b4" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -1492,11 +1482,6 @@ uid   pv_mse
 <section id="user-typology-in-multivariate-trip-space" class="level2">
 <h2 class="anchored" data-anchor-id="user-typology-in-multivariate-trip-space">6. User typology in multivariate trip space</h2>
 <p>For the selected long-coverage users, I build a multi-dimensional mobility profile capturing trip frequency, trip complexity, going-home behaviour, and within-trip exploration. After standardising these features, I apply k-means clustering (k = 3) to identify broad user types:</p>
-<ul>
-<li><strong>Cluster 0 — multi-stop revisitors:</strong> longer trips with many non-home stops, consistently low return-home hazards, and relatively low exploration (lower Pv share).</li>
-<li><strong>Cluster 1 — errand-homebodies:</strong> shorter trips and the highest probability of returning HOME after the first stop; exploration is moderate.</li>
-<li><strong>Cluster 2 — exploratory roamers:</strong> fewer and shorter trips but relatively high exploration; conditional on staying out beyond the first stop, return-home hazards tend to remain low.</li>
-</ul>
 <div id="fc86fa99" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show code</summary>
